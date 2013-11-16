@@ -1,9 +1,11 @@
 ghink
 =====
 
-ghink is a [github pages] [1] [InK] [6] boilerplate. An easy way to start a beautiful, responsive, self-hosted, blog or website.
+ghink is a [github pages] [1], plus [Jekyll] [7], plus [InK] [6] boilerplate. An easy way to start a beautiful, responsive, self-hosted, blog or website.
 
-ghink is currently based on versions 2.2.1 of [Ink] [6], and 1.2.1 of [Jekyll] [7].
+ghink offers a quick starting point, a number of common elements and patterns used with modern websites, and some recipes to get you going.
+
+It's currently based on versions 2.2.1 of [Ink] [6], and 1.2.1 of [Jekyll] [7].
 
 Developing model and contributing
 ---------------------------------
