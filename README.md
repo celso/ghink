@@ -37,6 +37,11 @@ See it in action
 
 We have a Ghink showroom website for you, you can [use it][10] to check on what's possible to do. Technical documentation stays here, keep reading.
 
+Got it. Now what?
+-----------------
+
+ - [_config.yml][11] file documentation
+ - [Snippets][12] options and examples
 
 Developing model and contributing
 ---------------------------------
@@ -54,3 +59,5 @@ We use the [Git flow] [9] workflow with ghink with a few nuances. Essencially we
   [8]: https://github.com/Shopify/liquid/wiki/Liquid-for-Designers     "Liquid templating"
   [9]: http://nvie.com/posts/a-successful-git-branching-model/         "Git flow"
   [10]: http://ghink.arrifana.org/                                     "Ghink"
+  [11]: https://github.com/celso/ghink/blob/gh-pages/CONFIG.md         "_config.yml"
+  [12]: https://github.com/celso/ghink/blob/gh-pages/SNIPPETS.md       "Snippets"
