@@ -1,0 +1,68 @@
+---
+layout: default
+title: Blog
+---
+
+<div class="column-group gutters">
+	<div class="large-25 medium-25 hide-small">
+
+		<header>
+			<nav class="ink-navigation">
+				<ul class="menu vertical grey">
+				{% assign pcount=1 %}
+				{% for post in paginator.posts %}
+					<li><a href="#{{ pcount }}">{{ post.title }}</a></li>
+					{% assign pcount=pcount | plus:1 %}
+				{% endfor %}
+				</ul>
+			</nav>
+		</header>
+
+	</div>
+
+
+	<div class="large-75 medium-75 small-100 content vspace">
+
+
+		{% include paginator.html style="rounded shadowed blue" %}
+
+		<small>Page {{ paginator.page }} of this Blog</small>
+
+		{% assign pcount=1 %}
+		{% for post in paginator.posts %}
+
+		<section id="{{ pcount }}">
+
+			<h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+			<small>{{ post.date | date_to_long_string }}</small>
+			{% if post.frontimage %}
+			<p class="shadows vspace">
+				<a href="{{ post.url }}"><img src="{{ post.frontimage }}"></a>
+			</p>
+			<p>
+			{% if post.longexcerpt %}
+				{{ post.longexcerpt | replace: "\'", "'" }}
+			{% else %}
+				{{ post.excerpt | replace: "\'", "'" }}
+				{% endif %}
+			</p>
+			{% else %}
+			<p class="shadows vspace">
+				{{ post.content | | replace: "\'", "'" }}
+			</p>
+			{% endif %}
+
+			<p><a href="{{ post.url }}">Read the full post</a></p>
+			<p><a href="{{ post.url }}#disqus_thread">comments</a></p>
+
+			<p class="vspace"></p>
+
+		</section>
+
+		{% assign pcount=pcount | plus:1 %}
+		{% endfor %}
+
+		{% include paginator.html style="rounded shadowed blue" %}
+
+	</div>
+</div>
