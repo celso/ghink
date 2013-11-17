@@ -1,6 +1,7 @@
 name: Ghink
 url: "http://ghink.arrifana.org/"
 description: "Ghink is a github pages, plus InK, plus Jekyll boilerplate. An easy way to start a beautiful, responsive, self-hosted, blog or website"
+disqus_shortname: "ghink"
 markdown: redcarpet
 pygments: true
 paginate: 5

@@ -6,4 +6,8 @@ layout: default
 
 <div class="post">
 {{ content }}
+
+{% if site.disqus_shortname %}
+	{% include disqus.html shortname=site.disqus_shortname %}
+{% endif %}
 </div>

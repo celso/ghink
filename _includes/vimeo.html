@@ -1,0 +1,4 @@
+<div class="video-container"><iframe src="//player.vimeo.com/video/{{ include.id }}?title=0&portrait=0&byline=0&badge=0{% if include.autoplay %}&autoplay={{ include.autoplay }}{% endif %}{% if include.loop %}&loop={{ include.loop }}{% endif %}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>
+{% comment %}
+ info at http://developer.vimeo.com/player/embedding
+{% endcomment %}

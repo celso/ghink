@@ -32,6 +32,12 @@ For more information on how to install Jekyll, check [this page] [5].
 
 Jekyll uses the [Liquid templating] [8] system.
 
+See it in action
+----------------
+
+We have a Ghink showroom website for you, you can [use it][10] to check on what's possible to do. Technical documentation stays here, keep reading.
+
+
 Developing model and contributing
 ---------------------------------
 
