@@ -12,6 +12,8 @@ To use a snippet in a page or blog post, you just need to write this inline:
 Available snippets
 ------------------
 
+### Youtube
+
 > {% include youtube.html id="video_id" autoplay="1|0" controls="1|0" %}
 
  - `autoplay` and `controls` are optional
@@ -23,3 +25,15 @@ Example:
 {% include youtube.html id="YE7VzlLtp-4" autoplay="1" controls="0" %}
 ```
 
+### Vimeo
+
+> {% include vimeo.html id="video_id" autoplay="1|0" loop="1|0" %}
+
+ - `autoplay` and `loop` are optional
+ - `id` is the Vimeo video id
+
+Example:
+
+```
+{% include vimeo.html id="1084537" autoplay="1" loop="1" %}
+```
