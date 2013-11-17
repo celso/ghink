@@ -1,12 +1,16 @@
 <div id="map" style="height:{% if include.height %}{{ include.height }}{% else %}400{% endif %}px;"></div>
 <script type="text/javascript">
-var map = L.map('map').setView([{{ include.coords }}], {{ include.zoom }});
-
-{% if include.type == "osm" %}
-	// add an OpenStreetMap tile layer
-	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-	}).addTo(map);
-{% endif %}
-
+function initMap() {
+	var map = L.map('map').setView([{{ include.coords }}], {{ include.zoom }});
+	L.tileLayer.provider('{% if include.provider %}{{ include.provider }}{% else %}OpenStreetMap.Mapnik{% endif %}').addTo(map);
+	{% if include.marker_coords && include.marker_title %}
+	L.marker([{{ include.marker_coords }}]).addTo(map)
+	    .bindPopup('{{ include.marker_title }}')
+	    .openPopup();
+	{% endif %}
+}
 </script>
+{% comment %}
+list of providers here: http://leaflet-extras.github.io/leaflet-providers/preview/index.html
+from here: https://github.com/leaflet-extras/leaflet-providers
+{% endcomment %}

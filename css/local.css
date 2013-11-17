@@ -38,6 +38,15 @@ color: #052861;
 a         { color: #0E3881; }
 a:visited { color: #0E3881; }
 
+/* fixes a problem with InK and Leaflet */
+#map img {
+  max-height: none !important;
+}
+
+#map img + img {
+  margin-top: 0;
+}
+
 footer {
   background: #ccc;
   color: #0003;

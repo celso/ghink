@@ -6,6 +6,12 @@
     <nav class="ink-navigation pull-right hide-small">
         <ul class="menu horizontal black rounded shadowed">
             <li data-urlexp="/^\/$/i"><a href="/">home</a></li>
+            <li data-urlexp="/^\/pages\//i">
+                <a href="#" onclick="return(false);">Pages <i class="icon-caret-down"></i></a>
+                <ul class="submenu black">
+                    <li><a href="/pages/contacts.html">contacts</a></li>
+                </ul>
+            </li>
             <li data-urlexp="/^\/cookbook\//i">
                 <a href="#" onclick="return(false);">InK Cookbook <i class="icon-caret-down"></i></a>
                 <ul class="submenu black">
