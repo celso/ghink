@@ -1,0 +1,4 @@
+<div class="video-container"><iframe src="//www.youtube.com/embed/{{ include.id }}?t=0{% if include.autoplay %}&autoplay={{ include.autoplay }}{% endif %}{% if include.controls %}&controls={{ include.controls }}{% endif %}" frameborder="0" allowfullscreen></iframe></div>
+{% comment %}
+ info at https://developers.google.com/youtube/iframe_api_reference#Examples
+{% endcomment %}
