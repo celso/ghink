@@ -27,6 +27,8 @@ function OnLoadTasks() {
     prettyPrint();
     // Marks menu items as active if they match the data-urlexp attribute
     menuSelectItems();
+    // initialize map
+    if(typeof(initMap)!=="undefined") initMap();
 }
 
 window.onload=OnLoadTasks;
