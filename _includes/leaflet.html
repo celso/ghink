@@ -1,0 +1,12 @@
+<div id="map" style="height:{% if include.height %}{{ include.height }}{% else %}400{% endif %}px;"></div>
+<script type="text/javascript">
+var map = L.map('map').setView([{{ include.coords }}], {{ include.zoom }});
+
+{% if include.type == "osm" %}
+	// add an OpenStreetMap tile layer
+	L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+	    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+	}).addTo(map);
+{% endif %}
+
+</script>
