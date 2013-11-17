@@ -1,0 +1,113 @@
+---
+layout: default
+title: Ghink
+---
+
+<!-- this css should go into /css/local.css -->
+
+<style>
+    .screen-size-helper {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        line-height: 1.6em;
+        font-size: 1em;
+        padding: 0.5333333333333333em 0.8em;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 100;
+    }
+    .screen-size-helper .title,
+    .screen-size-helper ul {
+        color: white;
+        text-shadow: 0 1px 0 #000000;
+    }
+    .screen-size-helper .title {
+        font-size: inherit;
+        line-height: inherit;
+        float: left;
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+    .screen-size-helper ul {
+        float: right;
+        margin: 0;
+        padding: 0;
+        line-height: inherit !important;
+    }
+    .screen-size-helper ul li {
+        padding: 0;
+        margin: 0;
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: inherit !important;
+    }
+    .screen-size-helper ul li.small {
+        color: #80c431;
+    }
+    .screen-size-helper ul li.medium {
+        color: #80c431;
+    }
+    .screen-size-helper ul li.large {
+        color: #80c431;
+    }
+    .screen-size-helper ul li.extra-large {
+        color: #80c431;
+    }
+</style>
+
+
+<div class="box">
+
+    <table class="ink-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Product name</th>
+                <th class="hide-small show-medium show-large">Product description</th>
+                <th>Product name</th>
+            </tr>
+        </thead>
+        <tfoot>
+            
+        <td colspan="4">FOOTER</td>
+            
+        </tfoot>                                  
+        <tbody>
+            <tr>
+                <td>24</td>
+                <td>Twin color basketball shoe</td>
+                <td class="hide-small show-medium show-large">A prime selection leather shoe with latex foam instep and exquisite workmanship</td>
+                <td>&euro;26,00</td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>Cast iron waffle maker</td>
+                <td class="hide-small show-medium show-large">Almost Superman-proof, provided Superman doesn't sneeze at it.</td>
+                <td>&euro;158,00</td>
+            </tr>
+            <tr>
+                <td>55</td>
+                <td>Sports duffle bag</td>
+                <td class="hide-small show-medium show-large">Chuck Norris used these for exercising his eyebrows. Currenty at 50% off.</td>
+                <td>&euro;15,00</td>
+            </tr>
+            <tr>
+                <td>23</td>
+                <td>Some stuff </td>
+                <td class="hide-small show-medium show-large">Random junk we had stashed away someplace. We think it's valuable.</td>
+                <td>&euro;489,00</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="screen-size-helper">
+    <p class="title">Screen size:</p>
+    <ul class="unstyled">
+        <li class="hide-medium hide-large show-small small">SMALL</li>
+        <li class="hide-small show-medium hide-large medium">MEDIUM</li>
+        <li class="hide-small hide-medium show-large large">LARGE</li>
+    </ul>
+</div>

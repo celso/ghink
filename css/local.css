@@ -1,0 +1,126 @@
+/* LARGE SCREENS */
+@media screen and (min-width: 960px) {
+
+}
+
+/* MEDIUM SCREENS */
+@media screen and (min-width: 650px) and (max-width: 959px) {
+
+}
+
+/* SMALL SCREENS */
+@media screen and (max-width: 649px) {
+
+
+}
+
+body {
+  background: #f5f5f5;
+}
+header {
+  padding: 2em 0;
+  margin-bottom: 2em;
+}
+header h1 {
+  font-size: 2em;
+}
+header h1 small:before  {
+    content: "|";
+    margin: 0 0.5em;
+    font-size: 1.6em;
+}
+
+a:hover { 
+text-decoration:none !important;
+color: #052861;
+}
+
+a         { color: #0E3881; }
+a:visited { color: #0E3881; }
+
+footer {
+  background: #ccc;
+  color: #0003;
+}
+footer p {
+  padding: 0.5em 1em 0.5em 0;
+  margin: 0;        
+}
+
+footer a {
+  color: #333333;
+  text-decoration:none !important;
+  font-size: 1.5em;
+}
+
+footer a:hover {
+  color: #333333;
+}
+
+footer a:visited {
+  color: #333333;
+}
+
+button#toggleVisibility { 
+    position: absolute;
+    padding: 20 20 20 20;
+    top: 3px; right: 0;
+    font-size: 20px;
+}
+
+.shadows img {
+    -webkit-box-shadow: 3px 3px 3px #7C7C7C;
+    box-shadow: 3px 3px 3px #7C7C7C;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px; height: 0; overflow: hidden;
+}
+ 
+.video-container iframe,
+.video-container object,
+.video-container embed {
+    position: absolute;
+    -webkit-box-shadow: 3px 3px 3px #7C7C7C;
+    box-shadow: 3px 3px 3px #7C7C7C;
+    top: 0;
+    left: 0;
+    width: 99.5%;
+    height: 99.5%;
+}
+
+.bweffect img {
+  -webkit-filter: grayscale(0.8);
+  -webkit-filter: grayscale(80%);
+  -moz-filter: grayscale(80%);
+  filter: gray; filter: grayscale(80%);
+  filter: url(/css/filters.svg#desaturate); 
+}
+
+.bweffect:hover img {
+  -webkit-transition: 1s all ease-in; -o-transition: 1s all ease-in;
+  -moz-transition: 1s all ease-in; transition: 1s all ease-in;
+  transition: 1s all ease-in; transition: 1s all ease-in;
+  -webkit-filter: grayscale(0);
+  -webkit-filter: grayscale(0%);
+  -moz-filter: grayscale(0%);
+  filter: gray; filter: grayscale(0%);
+  filter: url(/css/filters.svg#color); 
+}
+
+.footer-logos {
+  float: right;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.footer-logos a {
+  margin-right: 20px;
+}
+
+pre.prettyprint{
+  padding:20px !important;
+}
+

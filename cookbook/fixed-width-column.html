@@ -1,0 +1,78 @@
+---
+layout: default
+title: Ghink
+---
+
+<!-- this css should go into /css/local.css -->
+<style>
+    .highlight {
+        clear: none;
+    }
+
+    .highlight-wrapper {
+        overflow: hidden; /* this is really important to make the float work */
+    }
+
+    .pub {
+        width: 300px;
+    }
+
+    @media screen and (min-width: 960px) {
+        /* large */
+        .highlight {
+            /* create the needed space for the fixed width column */
+            padding-right: 20.75em;
+        }
+    }
+
+    @media screen and (min-width: 650px) and (max-width: 959px) {
+        /* medium */
+        .highlight {
+            padding-right: 0;
+        }
+    }
+
+    @media screen and (max-width: 649px) {
+        /* small */
+        .highlight {
+            padding-right: 0;
+        }
+    }
+</style>
+
+<div class="column-group vspace">            
+    <section class="pub hide-all show-large large-push-right">
+        <a href="#" class="mrec"><img src="../js/holder.js/300x250/ink/auto/text: MREC PUB" /></a>
+        <div class="column-group vspace gutters">
+            <div class="large-50"><img src="../js/holder.js/300x250/ink/auto/text: PUB" /></div>
+            <div class="large-50"><img src="../js/holder.js/300x250/ink/auto/text: PUB" /></div>
+        </div>
+        <p class="vspace">
+            "Red is not the right word," was the reply. "The plague was scarlet.  The whole face and body turned scarlet in an hour's time. Don't I  know? Didn't I see enough of it? And I am telling you it was scarlet  because&mdash;well, because it was scarlet. There is no other word for it."
+        </p>
+    </section>
+    <section class="highlight medium-100 small-100">
+        <div class="highlight-wrapper">
+            <div class="column-group half-gutters">
+                <div class="large-60 medium-50 small-100">
+                    <div class="image">
+                        <img src="../js/holder.js/600x430/ink/auto/text: highlight" />
+                    </div>
+                </div>
+                <div class="large-40 medium-50 small-100">
+                    <h2>heading</h2>
+                    <p>"Red is not the right word," was the reply. "The plague was scarlet.  The whole face and body turned scarlet in an hour's time. Don't I  know? Didn't I see enough of it? And I am telling you it was scarlet  because&mdash;well, because it was scarlet. There is no other word for it."</p>
+                </div>
+            </div>
+            <div class="column-group gutters">
+                <div class="large-50 medium-50 small-100"><img src="../js/holder.js/600x430/ink/auto/text: another story" /></div>
+                <div class="large-50 medium-50 small-100"><img src="../js/holder.js/600x430/ink/auto/text: another story" /></div>
+            </div>
+            <div class="column-group gutters">
+                <div class="large-33 medium-33 small-100"><img src="../js/holder.js/600x430/ink/auto/text: another story" /></div>
+                <div class="large-33 medium-33 small-100"><img src="../js/holder.js/600x430/ink/auto/text: another story" /></div>
+                <div class="large-33 medium-33 small-100"><img src="../js/holder.js/600x430/ink/auto/text: another story" /></div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,56 @@
+<nav class="ink-navigation">
+    <ul class="pagination {{ include.style }}">
+		{% if paginator.previous_page %}
+		<li class="previous">
+			{% if paginator.previous_page == 1 %}
+				<a href="/blog/">Previous</a>
+			{% else %}
+				<a href="{{ paginator.previous_page_path }}">Previous</a>
+			{% endif %}
+		</li>
+		{% else %}
+		<li class="previous disabled"><a href="#" onclick="return(false);">Previous</a></li>
+		{% endif %}
+
+		{% if paginator.page == 1 %}
+		<li class="active"><a href="#" onclick="return(false);">1</a></a>
+		{% else %}
+		<li><a href="/blog/"><i class="icon-fast-backward"></i></a></li>
+		{% endif %}
+
+		{% if paginator.page > 2 %}
+		<li class="disabled"><a href="#" onclick="return(false);">...</a></li>
+		{% endif %}
+
+		{% assign npages=paginator.total_pages | minus:1 %}
+		{% for count in (2..npages) %}
+			{% assign leftlimit=paginator.page | minus:1 %}
+			{% assign rightlimit=paginator.page | plus:6 %}
+			{% if count >= leftlimit and count < rightlimit %}
+				{% if count == paginator.page %}
+				<li class="active"><a href="#" onclick="return(false);">{{ count }}</a></li>
+				{% else %}
+				<li><a href="/blog/page/{{ count }}">{{ count }}</a></li>
+				{% endif %}
+			{% endif %}
+		{% endfor %}
+
+		{% if paginator.page < npages %}
+		<li class="disabled"><a href="#" onclick="return(false);">...</a></li>
+		{% endif %}
+
+		{% if paginator.page == paginator.total_pages %}
+		<li class="active"><a href="#" onclick="return(false);">{{ paginator.total_pages }}</a></a>
+		{% else %}
+		<li><a href="/blog/page/{{ paginator.total_pages }}"><i class="icon-fast-forward"></i></a></a>
+		{% endif %}
+
+
+		{% if paginator.next_page %}
+		<li class="next"><a href="{{ paginator.next_page_path }}">Next</a></li>
+		{% else %}
+		<li class="next disabled"><a href="#" onclick="return(false);">Next</a></li>
+		{% endif %}
+
+	</ul>
+</nav>

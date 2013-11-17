@@ -1,11 +1,36 @@
-ghink
+Ghink
 =====
 
-ghink is a [github pages] [1], plus [Jekyll] [7], plus [InK] [6] boilerplate. An easy way to start a beautiful, responsive, self-hosted, blog or website.
+Ghink is a [github pages] [1], plus [Jekyll] [7], plus [InK] [6] boilerplate. An easy way to start a beautiful, responsive, self-hosted, blog or website.
 
-ghink offers a quick starting point, a number of common elements and patterns used with modern websites, and some recipes to get you going.
+Ghink offers a quick starting point, a number of common elements and patterns used with modern websites, and some recipes to get you going.
 
 It's currently based on versions 2.2.1 of [Ink] [6], and 1.2.1 of [Jekyll] [7].
+
+What is InK exactly?
+--------------------
+
+[InK] [6] is a set of tools for quick development of web interfaces. It offers a fluid and responsive grid, common interface elements, interactive components, a design-first approach with ease of use and simplicity at its core. Start integrating Ink in your projects and remove the hassle of building the basics, staying free to focus on what's important.
+
+InK provides modern responsive CSS patterns for many devices, meaning this website will work well on the desktop, smartphones or tablets.
+
+Before you start
+----------------
+
+Before you start building your website, you need to install a few tools first.
+
+We assume you have a Github account and are familiar with git at this point, or at leat you understand the concept of cloning, branches, pushing, pulling and committing code. If not, please take 30 minutes and read this [Guide] [2] and these [Pages] [3]
+
+Ghink uses [Github Pages] [1], which in turn uses [Jekyll] [4], a simple, blog aware static site generator. To install Jekyll in your computer, follow these steps:
+
+```
+sudo gem update --system
+sudo gem install jekyll
+```
+
+For more information on how to install Jekyll, check [this page] [5].
+
+Jekyll uses the [Liquid templating] [8] system.
 
 Developing model and contributing
 ---------------------------------
