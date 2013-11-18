@@ -3,6 +3,8 @@ url: "http://ghink.arrifana.org/"
 description: "Ghink is a github pages, plus InK, plus Jekyll boilerplate. An easy way to start a beautiful, responsive, self-hosted, blog or website"
 disqus_shortname: "ghink"
 use_leaflet: 1
+ga_domain: "arrifana.org"
+ga_id: "UA-45360427-2"
 markdown: redcarpet
 pygments: true
 paginate: 5
