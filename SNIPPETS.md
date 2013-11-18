@@ -37,3 +37,19 @@ Example:
 ```
 {% include vimeo.html id="1084537" autoplay="1" loop="1" %}
 ```
+
+### Leaflet map
+
+> {% include leaflet.html height="400" coords="lat, lon" zoom="15" provider="System.type" marker_coords="lat, lon" marker_title="Marker title" %}
+
+- `marker_coords` and `marker_title` are optional, but must go together
+- `provider` is optional, default is OpenStreetMap.Mapnik, otherwise pick one from here: http://leaflet-extras.github.io/leaflet-providers/preview/index.html
+- `coords` is the center of the map
+- `zoom` is the zoom level
+- `height` is the height of the map div, in pixels
+
+Example:
+
+```
+{% include leaflet.html height="400" coords="38.731073, -9.145898" zoom="15" provider="Stamen.Watercolor" marker_coords="38.731073, -9.145898" marker_title="Here we are" %}
+```
