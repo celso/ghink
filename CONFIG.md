@@ -3,6 +3,8 @@ _config.yml
 
 The [_config.yml][2] file is at the center of your website behavior and features. It's used both to configure the [Jekyll][1] parser and a bunch of local website parameters.
 
+Beware that sometimes, under unclear circumstances to me, Jekyll won't reprocess the website correctly when running with the --match flag. If you change to _config.yml file, you are advised to stop and restart Jekyll.
+
 Local parameters
 ----------------
 

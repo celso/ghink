@@ -39,12 +39,13 @@
 		<li class="disabled"><a href="#" onclick="return(false);">...</a></li>
 		{% endif %}
 
-		{% if paginator.page == paginator.total_pages %}
-		<li class="active"><a href="#" onclick="return(false);">{{ paginator.total_pages }}</a></a>
-		{% else %}
-		<li><a href="/blog/page/{{ paginator.total_pages }}"><i class="icon-fast-forward"></i></a></a>
+		{% if paginator.total_pages != 1 %}
+			{% if paginator.page == paginator.total_pages %}
+			<li class="active"><a href="#" onclick="return(false);">{{ paginator.total_pages }}</a></a>
+			{% else %}
+			<li><a href="/blog/page/{{ paginator.total_pages }}"><i class="icon-fast-forward"></i></a></a>
+			{% endif %}
 		{% endif %}
-
 
 		{% if paginator.next_page %}
 		<li class="next"><a href="{{ paginator.next_page_path }}">Next</a></li>
