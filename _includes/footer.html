@@ -21,3 +21,6 @@
 {% if site.disqus_shortname %}
     {% include disqus_count.html shortname=site.disqus_shortname %}
 {% endif %}
+{% if site.ga_domain %}
+    {% include ga.html domain=site.ga_domain id=site.ga_id %}
+{% endif %}

@@ -1,0 +1,16 @@
+---
+layout: post
+title:  "Check out this map"
+date:   2013-11-18 23:04:47
+excerpt: "Ghink has a few snippets you can use with your posts, like this map."
+thumbnail: /assets/images/map_thumb.png
+categories: maps
+---
+
+Here's a great map rendered by our [Snippets][1]:
+
+{% include leaflet.html height="400" coords="38.731073, -9.145898" zoom="15" provider="Stamen.Watercolor" marker_coords="38.731073, -9.145898" marker_title="Here we are" %}
+
+It's interactive too.
+
+ [1]: https://github.com/celso/ghink/blob/gh-pages/SNIPPETS.md                  "Snippets"

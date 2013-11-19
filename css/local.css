@@ -30,6 +30,10 @@ header h1 small:before  {
     font-size: 1.6em;
 }
 
+.fadein {
+  visibility:hidden;
+}
+
 a:hover { 
 text-decoration:none !important;
 color: #052861;
@@ -41,10 +45,16 @@ a:visited { color: #0E3881; }
 /* fixes a problem with InK and Leaflet */
 #map img {
   max-height: none !important;
+  -webkit-box-shadow: 0px 0px 0px !important;
+  box-shadow: 0px 0px 0px !important;
 }
 
 #map img + img {
   margin-top: 0;
+}
+
+#map {
+  margin-bottom: 10px;
 }
 
 footer {

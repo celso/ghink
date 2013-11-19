@@ -1,13 +1,27 @@
 ---
 layout: default
 ---
-<h2>{{ page.title }}</h2>
-<p class="meta">{{ page.date | date_to_string }}</p>
-
-<div class="post">
-{{ content }}
-
-{% if site.disqus_shortname %}
-	{% include disqus.html shortname=site.disqus_shortname %}
+{% if site.blog_more_posts %}
+<section class="column-group gutters article">
+	<div class="large-25 medium-25 hide-small fadein">
+		<h2>More stories</h2>
+		<div id="relatedposts" class="bweffect"></div>
+	</div>
+	<div class="large-75 medium-75 small-100">
+{% else %}
+	<div class="large-100 medium-100 small-100">
 {% endif %}
-</div>
+		<h2>{{ page.title }}</h2>
+		<p class="meta">{{ page.date | date_to_string }}</p>
+
+		<div class="post shadows">
+		{{ content }}
+
+		{% if site.disqus_shortname %}
+		<p>
+			{% include disqus.html shortname=site.disqus_shortname %}
+		</p>
+		{% endif %}
+		</div>
+	</div>
+</section>
