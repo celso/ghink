@@ -37,17 +37,26 @@ See it in action
 
 We have a Ghink [showroom website for you][10], you can use it to check on what's possible to do. Technical documentation stays here, keep reading.
 
+Make your own Github Page in 5 minutes
+--------------------------------------
+
+We have a step by step guide for you. [Read it here][14].
+
 Got it. Now what?
 -----------------
 
  - [_config.yml][11] file documentation
  - [Snippets][12] options and examples
  - How to write a [Blogpost][13]
+ - See how [InK works][6].
+ - How to [make your own Github Page][14]
 
 Developing model and contributing
 ---------------------------------
 
 We use the [Git flow] [9] workflow with ghink with a few nuances. Essencially we only use the develop and gh-pages branches. Day to day development goes into the develop branch of the project, which eventually merges into the gh-pages branch, our production ready releases bucket, which in turn triggers the [Ghink website] [10], thanks to the Github Pages service.
+
+To contribute, fork this project, then pull your changes back to me. I don't have guidelines yet, so let's see how it goes.
 
 
   [1]: http://pages.github.com/                                        "Github Pages"
@@ -63,3 +72,4 @@ We use the [Git flow] [9] workflow with ghink with a few nuances. Essencially we
   [11]: https://github.com/celso/ghink/blob/gh-pages/CONFIG.md         "_config.yml"
   [12]: https://github.com/celso/ghink/blob/gh-pages/SNIPPETS.md       "Snippets"
   [13]: https://github.com/celso/ghink/blob/gh-pages/BLOGPOST.md       "Writing a blog post"
+  [14]: https://github.com/celso/ghink/blob/gh-pages/GH-PAGES-HOWTO.md  "Howto"

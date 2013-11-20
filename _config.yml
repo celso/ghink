@@ -9,7 +9,7 @@ blog_more_posts: 5
 prettify_theme: "ghink"
 markdown: redcarpet
 pygments: true
-paginate: 5
+paginate: 3
 paginate_path: "blog/page/:num"
 timezone: Europe/Lisbon
 redcarpet:
