@@ -29,23 +29,11 @@ frontimage: /assets/images/dummy.jpg
 And then the markdown/HTML section (or content of the blog post).
 
 ```
-<p>
-In one of it initial iterations, Farrusco had a camera on it and was controlled remotely
-via xbee. It was developed by Guilherme Martins in a project called
-<a href="http://lab.guilhermemartins.net/2010/04/11/swars/">SWARS (See What A Robot Sees)</a>.
-</p>
+Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
 
-<div class="video-container">
-    <iframe src="http://player.vimeo.com/video/20996176?portrait=0" frameborder="0" allowfullscreen></iframe>
-</div>
+![Foz Coa Boat](/assets/images/fozcoa.jpg "Foz Coa Boat")
 
-<p>
-Guilherme purposed to Nuno Morgadinho and Ana Aires to develop a remote control via
-web application during the AZResidency, an artistic residency promoted by Rui Horta
-that took place in the beautiful Convento da Saudação in Montemor-o-Novo.
-</p>
-
-<img src="/assets/images/2012-09-04-farrusco-v2-stage-0-1.jpg">
+Great image uh?
 ```
 
 Here's an [example of a post](_posts/2013-11-18-big-photos.markdown) (press the RAW button to see the source)
@@ -129,11 +117,11 @@ Notes:
 
 To write code on a page or post, use the following markdown syntax:
 
-> &#96;&#96;&#96;
-> var code = 42;
-> &#96;&#96;&#96;
+> &#96;&#96;&#96;  
+> var code = 42;  
+> &#96;&#96;&#96;  
 
-Here's a [boilerplate](_templates/2013-10-31-template-post.markdown) to start a new post.
+Here's a [boilerplate](_examples/2013-10-31-template-post.markdown) to start a new post.
 
 [back to main](README.md)
 

@@ -4,7 +4,7 @@ title:  "Show me code"
 date:   2013-11-20 00:15:00
 excerpt: "Ghink highlights your code automatically using Google Code Prettify."
 thumbnail: /assets/images/code_thumb.png
-categories: maps
+categories: code
 ---
 
 Ghink uses [Google Code Prettify][1] to render beautiful syntax highlighted code sections. Like this:
@@ -29,6 +29,9 @@ To write code on a page use this syntax, as [explained here][2]:
 
 You can also change the highlighter theme by setting the `prettify_theme` global variable. [See here][3] to know how.
 
+<i class="icon-github"></i> [source for this page here][4].
+
  [1]: https://code.google.com/p/google-code-prettify/
  [2]: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
  [3]: https://github.com/celso/ghink/blob/gh-pages/CONFIG.md
+ [4]: https://raw.github.com/celso/ghink/gh-pages/_posts/2013-11-19-code-show.markdown
