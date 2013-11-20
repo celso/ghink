@@ -119,13 +119,13 @@ Also play with [InK][9] for a while to get used to it. You'll love it.
 
 Start with the [README document][8] to find out how to do all of this and more.
 
- [1]: 	http://pages.github.com
- [2]:	https://github.com/celso/ghink/archive/gh-pages.zip
- [3]:	https://help.github.com/articles/user-organization-and-project-pages
- [4]:	https://github.com/celso/ghink/blob/gh-pages/CONFIG.md
- [5]:	http://jekyllrb.com/docs/configuration/
- [6]:	http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
- [7]:	https://help.github.com/articles/setting-up-a-custom-domain-with-pages
- [8]:	https://github.com/celso/ghink/blob/gh-pages/README.md
- [9]:	http://ink.sapo.pt/
- [10]:	http://celso.github.io
+ [1]:   http://pages.github.com/
+ [2]:   https://github.com/celso/ghink/archive/gh-pages.zip
+ [3]:   https://help.github.com/articles/user-organization-and-project-pages
+ [4]:   https://github.com/celso/ghink/blob/gh-pages/CONFIG.md
+ [5]:   http://jekyllrb.com/docs/configuration/
+ [6]:   http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+ [7]:   https://help.github.com/articles/setting-up-a-custom-domain-with-pages
+ [8]:   https://github.com/celso/ghink/blob/gh-pages/README.md
+ [9]:   http://ink.sapo.pt/
+ [10]:  http://celso.github.io/
