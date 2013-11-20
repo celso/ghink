@@ -109,7 +109,7 @@ $ git commit -m "Ghink initial commit"
 $ git push
 ```
 
-That's it, now head to http://celso.github.io (change `celso` to your `username`) and check your own copy of the Ghink's boilerplate.
+That's it, now head to [http://celso.github.io][10] (change `celso` to your `username`) and check your own copy of the Ghink's boilerplate.
 
 Next you need to change the website to your own needs and content.
 
@@ -128,3 +128,4 @@ Start with the [README document][8] to find out how to do all of this and more.
  [7]:	https://help.github.com/articles/setting-up-a-custom-domain-with-pages
  [8]:	https://github.com/celso/ghink/blob/gh-pages/README.md
  [9]:	http://ink.sapo.pt/
+ [10]:	http://celso.github.io
