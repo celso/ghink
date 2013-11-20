@@ -27,6 +27,14 @@ function menuSelectItems() {
 
 function OnLoadTasks() {
     // Prettifyer
+    var codes = document.getElementsByClassName("highlight");
+    for (var i = codes.length - 1; i >= 0; i--) {
+        for (var j = codes[i].childNodes.length - 1; j >= 0; j--) {
+            if(codes[i].childNodes[j].tagName==='PRE') {
+                codes[i].childNodes[j].className = 'prettyprint';
+            }
+        }
+    }
     prettyPrint();
     // Marks menu items as active if they match the data-urlexp attribute
     menuSelectItems();

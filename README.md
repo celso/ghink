@@ -42,6 +42,7 @@ Got it. Now what?
 
  - [_config.yml][11] file documentation
  - [Snippets][12] options and examples
+ - How to write a [Blogpost][13]
 
 Developing model and contributing
 ---------------------------------
@@ -61,3 +62,4 @@ We use the [Git flow] [9] workflow with ghink with a few nuances. Essencially we
   [10]: http://ghink.arrifana.org/                                     "Ghink"
   [11]: https://github.com/celso/ghink/blob/gh-pages/CONFIG.md         "_config.yml"
   [12]: https://github.com/celso/ghink/blob/gh-pages/SNIPPETS.md       "Snippets"
+  [13]: https://github.com/celso/ghink/blob/gh-pages/BLOGPOST.md       "Writing a blog post"

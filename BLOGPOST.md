@@ -125,6 +125,13 @@ Notes:
  * Normal post images should be hosted at [assets/images/](assets/images/) with width 1024px
  * Thumbnail images should be hosted at [assets/images/](assets/images/) width width 270px
  * In images and local assets, always use relative links starting with / (ie: /assets/images/post.jpg), never absolute.
+ * Use the JPG format for live photos, the file size is much smaller without compromising quality. PNGs are fine for logos, comics, text, etc.
+
+To write code on a page or post, use the following markdown syntax:
+
+> &#96;&#96;&#96;
+> var code = 42;
+> &#96;&#96;&#96;
 
 Here's a [boilerplate](_templates/2013-10-31-template-post.markdown) to start a new post.
 

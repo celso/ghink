@@ -31,6 +31,31 @@ If you set these, [Google Analytics][5] will be used with all your pages. Get yo
 </script>
 ```
 
+> blog_more_posts: 5
+
+This sets the number of "more posts" that appear on the left column of a blog article. If value is 0, the left column disappears.
+
+> prettify_theme: "theme_name"
+
+Defines the Google Prettify theme to use for code highlighting. The bundled themes are:
+
+- desert
+- ghink (default)
+- ghink2
+- solarized-dark
+- solarized-light
+- tomorrow-night-blue
+- tomorrow-night-eighties
+- tomorrow
+- vibrant-ink
+
+To write code on a page, use the following markdown syntax:
+
+> &#96;&#96;&#96;
+> var code = 42;
+> &#96;&#96;&#96;
+
+
 
  [1]: 	http://jekyllrb.com/docs/configuration/
  [2]:	https://github.com/celso/ghink/blob/gh-pages/_config.yml
