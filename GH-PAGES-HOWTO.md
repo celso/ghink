@@ -111,9 +111,11 @@ $ git push
 
 That's it, now head to http://celso.github.io (change `celso` to your `username`) and check your own copy of the Ghink's boilerplate.
 
-Now you need to change the website to your own needs and content. First thing you should do now is to install Jekyll. Remember, part of the beauty of this setup is that you can run your whole website locally with zero dependencies, offline, no webserver or other interpreters needed.
+Next you need to change the website to your own needs and content.
 
-You should also play with [InK][10] for a while to get used to it. You'll love it.
+You should also install Jekyll now if you haven't yet. Remember, part of the beauty of this setup is that you can run your whole website locally with zero dependencies, offline, no webserver or other interpreters needed.
+
+Also play with [InK][9] for a while to get used to it. You'll love it.
 
 Start with the [README document][8] to find out how to do all of this and more.
 
@@ -125,5 +127,4 @@ Start with the [README document][8] to find out how to do all of this and more.
  [6]:	http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
  [7]:	https://help.github.com/articles/setting-up-a-custom-domain-with-pages
  [8]:	https://github.com/celso/ghink/blob/gh-pages/README.md
- [9]:	http://celso.github.io
- [10]:	http://ink.sapo.pt/
+ [9]:	http://ink.sapo.pt/

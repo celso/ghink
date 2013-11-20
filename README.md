@@ -37,6 +37,11 @@ See it in action
 
 We have a Ghink [showroom website for you][10], you can use it to check on what's possible to do. Technical documentation stays here, keep reading.
 
+Make your own Github Page in 5 minutes
+--------------------------------------
+
+We have a step by step guide for you. [Read it here][14].
+
 Got it. Now what?
 -----------------
 
@@ -63,3 +68,4 @@ We use the [Git flow] [9] workflow with ghink with a few nuances. Essencially we
   [11]: https://github.com/celso/ghink/blob/gh-pages/CONFIG.md         "_config.yml"
   [12]: https://github.com/celso/ghink/blob/gh-pages/SNIPPETS.md       "Snippets"
   [13]: https://github.com/celso/ghink/blob/gh-pages/BLOGPOST.md       "Writing a blog post"
+  [14]: https://github.com/celso/ghink/blob/develop/GH-PAGES-HOWTO.md  "Howto"
