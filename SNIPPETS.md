@@ -38,6 +38,18 @@ Example:
 {% include vimeo.html id="1084537" autoplay="1" loop="1" %}
 ```
 
+### SAPO Videos
+
+> {% include sapovideos.html id="video_id" %}
+
+ - `id` is the SAPO video id
+
+Example:
+
+```
+{% include sapovideos.html id="EUEF2ZiY5RqHoevCHYzt" %}
+```
+
 ### Leaflet map
 
 > {% include leaflet.html height="400" coords="lat, lon" zoom="15" provider="System.type" marker_coords="lat, lon" marker_title="Marker title" %}
