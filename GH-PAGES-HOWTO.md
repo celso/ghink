@@ -11,7 +11,7 @@ Create your Github Page repo
 
 First off, create your own Github Page repository. It must be named `user.github.io` (where `user` is your Github username). Add a Jekyll .gitignore template to it. Like this:
 
-![Creating new repo](//raw.github.com/celso/ghink/gh-pages/assets/images/douro.jpg "Creating new repo")
+![Creating new repo](https://raw.github.com/celso/ghink/gh-pages/assets/images/github_repo_create.png "Creating new repo")
 
 
 Download Ghink
