@@ -1,0 +1,22 @@
+---
+layout: post
+title:  "We play Videos"
+date:   2013-11-20 16:00:00
+excerpt: "Ghink highlights your code automatically using Google Code Prettify."
+thumbnail: /assets/images/video_thumb.jpg
+categories: maps
+---
+
+Ghink has a couple of Snippets to play video. Here are some examples of that.
+
+A video on Vimeo:
+
+{% include vimeo.html id="1084537" autoplay="0" controls="0" %}
+
+A video on Youtube:
+
+{% include youtube.html id="ouP9xNujkNo" autoplay="0" controls="1" %}
+
+To know more about Ghink Snippets [click here][1].
+
+ [1]: https://github.com/celso/ghink/blob/gh-pages/SNIPPETS.md
