@@ -121,7 +121,7 @@ To write code on a page or post, use the following markdown syntax:
 > var code = 42;
 > &#96;&#96;&#96;
 
-Here's a [boilerplate](_templates/2013-10-31-template-post.markdown) to start a new post.
+Here's a [boilerplate](_examples/2013-10-31-template-post.markdown) to start a new post.
 
 [back to main](README.md)
 

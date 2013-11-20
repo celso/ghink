@@ -18,8 +18,8 @@ Leaflet is a modern open-source JavaScript library for mobile-friendly interacti
 
 Ghink has a leaflet snippet you can use in your pages or blog posts. If you will be using it, you must set `use_leaflet: 1`.
 
-> ga_domain: "domain.org"
-> ga_id: "UA-123456789-0"
+> ga_domain: "domain.org"  
+> ga_id: "UA-123456789-0"  
 
 If you set these, [Google Analytics][5] will be used with all your pages. Get your `ga_id` Tracking ID and `ga_domain` url in your Tracking Info, Tracking Code at the Google Analytics admin page. It looks this this:
 
@@ -51,9 +51,9 @@ Defines the Google Prettify theme to use for code highlighting. The bundled them
 
 To write code on a page, use the following markdown syntax:
 
-> &#96;&#96;&#96;
-> var code = 42;
-> &#96;&#96;&#96;
+> &#96;&#96;&#96;  
+> var code = 42;  
+> &#96;&#96;&#96;  
 
 
 
