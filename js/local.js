@@ -9,7 +9,7 @@ Array.prototype.contains = function(obj) {
         }
     }
     return false;
-}
+};
 
 function menuSelectItems() {
     var menus = document.getElementsByClassName("menu");
@@ -23,7 +23,7 @@ function menuSelectItems() {
             }
         }
     }
-}
+};
 
 function OnLoadTasks() {
     // Prettifyer
@@ -45,7 +45,7 @@ function OnLoadTasks() {
     // Fadein all the "fadein" classes
     var fades = document.getElementsByClassName("fadein");
     for (var i = fades.length - 1; i >= 0; i--) fade(fades[i]);
-}
+};
 
 function printRandomPosts(posts,num) {
     var prs=[];
@@ -53,20 +53,17 @@ function printRandomPosts(posts,num) {
     var elm = document.getElementById('relatedposts');
     if(elm) {
         var html='';
-        for(var i=0;i<posts.length && pc<num;i++) {
-                var pid=Math.floor(Math.random() * (posts.length-1));
-                if(!prs.contains(pid)) {
-                        var post=posts[pid];
-                        if(post.thumbnail && post.thumbnail.length && window.location.pathname !== post.url) {
-                                html+='<a href="'+post.url+'"><h5>'+post.title+'</h5><img src="'+post.thumbnail+'"><small>'+post.excerpt+'</small></a>';
-                                prs.push(pid);
-                                pc++;
-                        }
-                }
+        var rposts=shuffle(posts);
+        for(var i=0;i<rposts.length && pc<num;i++) {
+            var post=rposts[i];
+            if(post.thumbnail && post.thumbnail.length && window.location.pathname !== post.url) {
+                    html+='<a href="'+post.url+'"><h5>'+post.title+'</h5><img src="'+post.thumbnail+'"><small>'+post.excerpt+'</small></a>';
+                    pc++;
+            }
         }
         elm.innerHTML=html;
     }
-}
+};
 
 function fade(element) {
     var op = 0;  // initial opacity
@@ -81,6 +78,11 @@ function fade(element) {
         element.style.opacity = op;
         element.style.filter = 'alpha(opacity=' + op * 100 + ")";
     }, 50);
-}
+};
+
+function shuffle(o){
+    for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+    return o;
+};
 
 window.onload=OnLoadTasks;
