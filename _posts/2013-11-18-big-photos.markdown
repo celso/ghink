@@ -16,4 +16,7 @@ categories: photos
 
 Use the JPG format for live photos, the file size is much smaller without compromising quality.
 
+<i class="icon-github"></i> [source for this page here][2].
+
 [1]:	http://ink.sapo.pt/
+[2]:	https://raw.github.com/celso/ghink/gh-pages/_posts/2013-11-18-big-photos.markdown
