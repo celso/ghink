@@ -26,5 +26,5 @@ To know more about Ghink Snippets [click here][1].
 
 <i class="icon-github"></i> [source for this page here][2].
 
- [1]: https://github.com/celso/ghink/blob/gh-pages/SNIPPETS.md
+ [1]: https://github.com/celso/ghink/blob/gh-pages/_docs/SNIPPETS.md
  [2]: https://raw.github.com/celso/ghink/gh-pages/_posts/2013-11-20-videos.markdown

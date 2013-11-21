@@ -129,6 +129,6 @@ Here's a [boilerplate](_examples/2013-10-31-template-post.markdown) to start a n
   [2]: https://help.github.com/articles/github-flavored-markdown       "Github flavored markdown"
   [3]: http://daringfireball.net/projects/markdown/                    "Markdown"
   [4]: https://github.com/vmg/Redcarpet                                "Redcarpet"
-  [5]: https://github.com/celso/ghink/blob/gh-pages/SNIPPETS.md        "Snippets"
+  [5]: https://github.com/celso/ghink/blob/gh-pages/_docs/SNIPPETS.md        "Snippets"
   [6]: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet  "Markdown Cheatsheet"
 
