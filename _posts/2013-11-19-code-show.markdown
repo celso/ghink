@@ -33,5 +33,5 @@ You can also change the highlighter theme by setting the `prettify_theme` global
 
  [1]: https://code.google.com/p/google-code-prettify/
  [2]: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
- [3]: https://github.com/celso/ghink/blob/gh-pages/CONFIG.md
+ [3]: https://github.com/celso/ghink/blob/gh-pages/_docs/CONFIG.md
  [4]: https://raw.github.com/celso/ghink/gh-pages/_posts/2013-11-19-code-show.markdown

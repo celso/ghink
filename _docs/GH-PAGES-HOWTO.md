@@ -13,7 +13,7 @@ First off, create your own Github Page repository. It must be named `user.github
 
 ![Creating new repo](https://raw.github.com/celso/ghink/gh-pages/assets/images/github_repo_create.png "Creating new repo")
 
-From now how, for simplicity's sake, let's assume the username is `celso`.
+From now on, for simplicity's sake, we'll assume the username is `celso`.
 
 Clone the repo in your disk
 ---------------------------
@@ -122,7 +122,7 @@ Start with the [README document][8] to find out how to do all of this and more.
  [1]:   http://pages.github.com/
  [2]:   https://github.com/celso/ghink/archive/gh-pages.zip
  [3]:   https://help.github.com/articles/user-organization-and-project-pages
- [4]:   https://github.com/celso/ghink/blob/gh-pages/CONFIG.md
+ [4]:   https://github.com/celso/ghink/blob/gh-pages/_docs/CONFIG.md
  [5]:   http://jekyllrb.com/docs/configuration/
  [6]:   http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
  [7]:   https://help.github.com/articles/setting-up-a-custom-domain-with-pages
