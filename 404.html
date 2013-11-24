@@ -1,0 +1,39 @@
+---
+layout: naked
+title: Not found
+---
+
+<div class="column-group">
+
+    <div class="large-100 medium-100 small-100 content-center vspace">
+
+    <br/><br/><br/><br/><br/><br/>
+
+    <h1>Issue #404 pulled.</h1>
+
+    </div>
+
+</div>
+
+{% comment %}
+
+Use the redirects js array to make sure you redirect your old website structure to the new one, if needed.
+
+{% endcomment %}
+
+<script type="text/javascript">
+    var redirects={
+        '/oldsectionurl.html': '/newsection/',
+        '/oldcontactsurl.html': '/newcontactsurl.html'
+     }
+
+    for (var url in redirects) {
+      if (redirects.hasOwnProperty(url)) { 
+        if(window.location.pathname==url) {
+            window.location = redirects[url];
+        }
+      }
+    }
+
+    setTimeout(function () { window.location = '/'; },10000);
+</script>
