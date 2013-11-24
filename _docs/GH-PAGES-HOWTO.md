@@ -54,7 +54,7 @@ Remeber, change `user` to your Github username. Also, check and type your correc
 Delete these lines for now:
 
 ```
-ga_domain: "arrifana.org"
+ga_domain: "ghink.cc"
 ga_id: "UA-45360427-2"
 disqus_shortname: "ghink"
 ```

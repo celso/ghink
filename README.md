@@ -68,7 +68,7 @@ To contribute, fork this project, then pull your changes back to me. I don't hav
   [7]: http://jekyllrb.com/                                            "Jekyll"
   [8]: https://github.com/Shopify/liquid/wiki/Liquid-for-Designers     "Liquid templating"
   [9]: http://nvie.com/posts/a-successful-git-branching-model/         "Git flow"
-  [10]: http://ghink.arrifana.org/                                     "Ghink"
+  [10]: http://ghink.cc/                                     "Ghink"
   [11]: https://github.com/celso/ghink/blob/gh-pages/_docs/CONFIG.md         "_config.yml"
   [12]: https://github.com/celso/ghink/blob/gh-pages/_docs/SNIPPETS.md       "Snippets"
   [13]: https://github.com/celso/ghink/blob/gh-pages/_docs/BLOGPOST.md       "Writing a blog post"
