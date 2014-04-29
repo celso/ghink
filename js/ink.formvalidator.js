@@ -1,13 +1,25 @@
 /**
+ * Form Validation
  * @module Ink.UI.FormValidator_1
- * @author inkdev AT sapo.pt
  * @version 1
- */
-Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validator_1'], function( Css, InkValidator ) {
+ **/
+
+Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Element_1', 'Ink.Dom.Css_1','Ink.Util.Validator_1','Ink.Dom.Selector_1'], function( InkElement, Css, InkValidator , Selector) {
     'use strict';
 
+    function elementsWithSameName(elm) {
+        if (!elm.name) { return []; }
+        if (!elm.form) {
+            return Selector.select('name="' + elm.name + '"');
+        }
+        var ret = elm.form[elm.name];
+        if(typeof(ret.length) === 'undefined') {
+            ret = [ret];
+        }
+        return ret;
+    }
     /**
-     * @class Ink.UI.FormValidator
+     * @namespace Ink.UI.FormValidator
      * @version 1
      */
     var FormValidator = {
@@ -91,7 +103,7 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
          * @readOnly
          * @private
          */
-        _errorClassName: 'tip',
+        _errorClassName: 'tip error',
 
         /**
          * @property _errorValidationClassName
@@ -118,19 +130,20 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
         _errorTypeErrorClassName: 'error',
 
         /**
-         * Check if a form is valid or not
+         * Checks if a form is valid
          * 
          * @method validate
-         * @param {DOMElement|String} elm DOM form element or form id
-         * @param {Object} options Options for
-         *      @param {Function} [options.onSuccess] function to run when form is valid
-         *      @param {Function} [options.onError] function to run when form is not valid
-         *      @param {Array} [options.customFlag] custom flags to use to validate form fields
+         * @param {DOMElement|String}   elm                     DOM form element or form id
+         * @param {Object}              options                 Configuration options
+         * @param {Function}            [options.onSuccess]     Callback to run when form is valid
+         * @param {Function}            [options.onError]       Callback to run when form is not valid
+         * @param {Array}               [options.customFlag]    Custom flags to use to validate form fields
          * @public
-         * @return {Boolean}
+         * @return {Boolean} Whether the form is deemed valid or not.
+         *
+         * @sample Ink_UI_FormValidator_1.html
          */
-        validate: function(elm, options)
-        {
+        validate: function(elm, options) {
             this._free();
 
             options = Ink.extendObj({
@@ -150,6 +163,7 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
 
             if(typeof(this.element.id) === 'undefined' || this.element.id === null || this.element.id === '') {
                 // generate a random ID
+                // TODO ugly and potentially problematic, and you know Murphy's law.
                 this.element.id = 'ink-fv_randomid_'+(Math.round(Math.random() * 99999));
             }
 
@@ -180,7 +194,7 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
         },
 
         /**
-         * Reset previously generated validation errors
+         * Resets previously generated validation errors
          * 
          * @method reset
          * @public
@@ -232,24 +246,25 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
             //     return;
             // }
 
-            this.elements[this.element.id] = [];
+            var elements = this.elements[this.element.id] = [];
             this.confirmElms[this.element.id] = [];
             //console.log(this.element);
             //console.log(this.element.elements);
-            var formElms = this.element.elements;
+            var formElms = Selector.select(':input', this.element);
             var curElm = false;
             for(var i=0, totalElm = formElms.length; i < totalElm; i++) {
                 curElm = formElms[i];
+                var type = (curElm.getAttribute('type') + '').toLowerCase();
 
-                if(curElm.getAttribute('type') !== null && curElm.getAttribute('type').toLowerCase() === 'radio') {
-                    if(this.elements[this.element.id].length === 0 ||
+                if (type === 'radio' || type === 'checkbox') {
+                    if(elements.length === 0 ||
                             (
-                             curElm.getAttribute('type') !== this.elements[this.element.id][(this.elements[this.element.id].length - 1)].getAttribute('type') &&
-                            curElm.getAttribute('name') !== this.elements[this.element.id][(this.elements[this.element.id].length - 1)].getAttribute('name')
+                             curElm.getAttribute('type') !== elements[elements.length - 1].getAttribute('type') &&
+                            curElm.getAttribute('name') !== elements[elements.length - 1].getAttribute('name')
                             )) {
                         for(var flag in this._flagMap) {
                             if(Css.hasClassName(curElm, flag)) {
-                                this.elements[this.element.id].push(curElm);
+                                elements.push(curElm);
                                 break;
                             }
                         }
@@ -261,7 +276,7 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
                                 this.confirmElms[this.element.id].push(curElm);
                                 this.hasConfirm[this.element.id] = true;
                             }*/
-                            this.elements[this.element.id].push(curElm);
+                            elements.push(curElm);
                             break;
                         }
                     }
@@ -273,7 +288,6 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
 
                 }
             }
-            //debugger;
         },
 
         /**
@@ -282,12 +296,10 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
          * @method _validateElements
          * @private
          */
-        _validateElements: function()
-        {
+        _validateElements: function() {
             var oGroups;
             this._getElements();
-            //console.log('HAS CONFIRM', this.hasConfirm);
-            if(typeof(this.hasConfirm[this.element.id]) !== 'undefined' && this.hasConfirm[this.element.id] === true) {
+            if(this.hasConfirm[this.element.id] === true) {
                 oGroups = this._makeConfirmGroups();
             }
 
@@ -303,10 +315,8 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
                 if(!curElm.disabled) {
                     for(var flag in this._flagMap) {
                         if(Css.hasClassName(curElm, flag)) {
-
                             if(flag !== 'ink-fv-custom' && flag !== 'ink-fv-confirm') {
                                 if(!this._isValid(curElm, flag)) {
-
                                     if(!inArray) {
                                         errors.push({elm: curElm, errors:[flag]});
                                         inArray = true;
@@ -320,6 +330,7 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
                                     errors.push({elm: curElm, errors:[flag], custom: customErrors});
                                 }
                             } else if(flag === 'ink-fv-confirm'){
+                                continue;
                             }
                         }
                     }
@@ -339,17 +350,14 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
          * @private
          * @return {Array} Array of errors that was passed as 2nd parameter (either changed, or not, depending if errors were found).
          */
-        _validateConfirmGroups: function(oGroups, errors)
-        {
+        _validateConfirmGroups: function(oGroups, errors) {
             //console.log(oGroups);
             var curGroup = false;
-            for(var i in oGroups) {
-                if (oGroups.hasOwnProperty(i)) {
-                    curGroup = oGroups[i];
-                    if(curGroup.length === 2) {
-                        if(curGroup[0].value !== curGroup[1].value) {
-                            errors.push({elm:curGroup[1], errors:['ink-fv-confirm']});
-                        }
+            for(var i in oGroups) if (oGroups.hasOwnProperty(i)) {
+                curGroup = oGroups[i];
+                if(curGroup.length === 2) {
+                    if(curGroup[0].value !== curGroup[1].value) {
+                        errors.push({elm:curGroup[1], errors:['ink-fv-confirm']});
                     }
                 }
             }
@@ -389,9 +397,9 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
                 if(this.confirmElms[this.element.id].length === 2) {
                     oGroups = {
                         "ink-fv-confirm": [
-                                this.confirmElms[this.element.id][0],
-                                this.confirmElms[this.element.id][1]
-                            ]
+                            this.confirmElms[this.element.id][0],
+                            this.confirmElms[this.element.id][1]
+                        ]
                     };
                 }
                 return oGroups;
@@ -431,162 +439,90 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
          * @private
          * @return {Boolean} The result of the validation.
          */
-        _isValid: function(elm, fieldType)
-        {
+        _isValid: function(elm, fieldType) {
+            var nodeName = elm.nodeName.toLowerCase();
+            var inputType = (elm.getAttribute('type') || '').toLowerCase();
+            var value = this._trim(elm.value);
+
+            // When we're analyzing emails, telephones, etc, and the field is
+            // empty, we check if it is required. If not required, it's valid.
+            if (fieldType !== 'ink-fv-required' &&
+                    inputType !== 'checkbox' && inputType !== 'radio' &&
+                    value === '') {
+                return !Css.hasClassName(elm, 'ink-fv-required');
+            }
+
             switch(fieldType) {
                 case 'ink-fv-required':
-                    if(elm.nodeName.toLowerCase() === 'select') {
+                    if(nodeName === 'select') {
                         if(elm.selectedIndex > 0) {
                             return true;
                         } else {
                             return false;
                         }
                     }
-                    if(elm.getAttribute('type') !== 'checkbox' && elm.getAttribute('type') !== 'radio') {
-                        if(this._trim(elm.value) !== '') {
-                            return true;
-                        }
-                    } else if(elm.getAttribute('type') === 'checkbox') {
-                        if(elm.checked === true) {
-                            return true;
-                        }
-                    } else if(elm.getAttribute('type') === 'radio') { // get top radio
-                        var aFormRadios = elm.form[elm.name];
-                        if(typeof(aFormRadios.length) === 'undefined') {
-                            aFormRadios = [aFormRadios];
-                        }
+                    if(inputType !== 'checkbox' && inputType !== 'radio' &&
+                            value !== '') {
+                        return true;  // A input type=text,email,etc.
+                    } else if(inputType === 'checkbox' || inputType === 'radio') {
+                        var aFormRadios = elementsWithSameName(elm);
                         var isChecked = false;
+                        // check if any input of the radio is checked
                         for(var i=0, totalRadio = aFormRadios.length; i < totalRadio; i++) {
                             if(aFormRadios[i].checked === true) {
                                 isChecked = true;
+                                break;
                             }
                         }
                         return isChecked;
                     }
-                    break;
+                    return false;
 
                 case 'ink-fv-email':
-                    if(this._trim(elm.value) === '') {
-                        if(Css.hasClassName(elm, 'ink-fv-required')) {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    } else {
-                        if(InkValidator.mail(elm.value)) {
-                            return true;
-                        }
-                    }
-                    break;
+                    return InkValidator.mail(elm.value);
+
                 case 'ink-fv-url':
-                    if(this._trim(elm.value) === '') {
-                        if(Css.hasClassName(elm, 'ink-fv-required')) {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    } else {
-                        if(InkValidator.url(elm.value)) {
-                            return true;
-                        }
-                    }
-                    break;
+                    return InkValidator.url(elm.value);
+
                 case 'ink-fv-number':
-                    if(this._trim(elm.value) === '') {
-                        if(Css.hasClassName(elm, 'ink-fv-required')) {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    } else {
-                        if(!isNaN(Number(elm.value))) {
-                            return true;
-                        }
-                    }
-                    break;
+                    return !isNaN(Number(elm.value)) && isFinite(Number(elm.value));
+
                 case 'ink-fv-phone_pt':
-                    if(this._trim(elm.value) === '') {
-                        if(Css.hasClassName(elm, 'ink-fv-required')) {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    } else {
-                        if(InkValidator.isPTPhone(elm.value)) {
-                            return true;
-                        }
-                    }
-                    break;
+                    return InkValidator.isPTPhone(elm.value);
+
                 case 'ink-fv-phone_cv':
-                    if(this._trim(elm.value) === '') {
-                        if(Css.hasClassName(elm, 'ink-fv-required')) {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    } else {
-                        if(InkValidator.isCVPhone(elm.value)) {
-                            return true;
-                        }
-                    }
-                    break;
+                    return InkValidator.isCVPhone(elm.value);
+
                 case 'ink-fv-phone_ao':
-                    if(this._trim(elm.value) === '') {
-                        if(Css.hasClassName(elm, 'ink-fv-required')) {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    } else {
-                        if(InkValidator.isAOPhone(elm.value)) {
-                            return true;
-                        }
-                    }
-                    break;
+                    return InkValidator.isAOPhone(elm.value);
+
                 case 'ink-fv-phone_mz':
-                    if(this._trim(elm.value) === '') {
-                        if(Css.hasClassName(elm, 'ink-fv-required')) {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    } else {
-                        if(InkValidator.isMZPhone(elm.value)) {
-                            return true;
-                        }
-                    }
-                    break;
+                    return InkValidator.isMZPhone(elm.value);
+
                 case 'ink-fv-date':
-                    if(this._trim(elm.value) === '') {
-                        if(Css.hasClassName(elm, 'ink-fv-required')) {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    } else {
-                        var Element = Ink.getModule('Ink.Dom.Element',1);
-                        var dataset = Element.data( elm );
-                        var validFormat = 'yyyy-mm-dd';
+                    var Element = Ink.getModule('Ink.Dom.Element',1);
+                    var dataset = Element.data( elm );
+                    var validFormat = 'yyyy-mm-dd';
 
-                        if( Css.hasClassName(elm, 'ink-datepicker') && ("format" in dataset) ){
-                            validFormat = dataset.format;
-                        } else if( ("validFormat" in dataset) ){
-                            validFormat = dataset.validFormat;
-                        }
-
-                        if( !(validFormat in InkValidator._dateParsers ) ){
-                            var validValues = [];
-                            for( var val in InkValidator._dateParsers ){
-                                if (InkValidator._dateParsers.hasOwnProperty(val)) {
-                                    validValues.push(val);
-                                }
-                            }
-                            throw "The attribute data-valid-format must be one of the following values: " + validValues.join(',');
-                        }
-                        
-                        return InkValidator.isDate( validFormat, elm.value );
+                    if( Css.hasClassName(elm, 'ink-datepicker') && ('format' in dataset) ){
+                        validFormat = dataset.format;
+                    } else if( ('validFormat' in dataset) ){
+                        validFormat = dataset.validFormat;
                     }
-                    break;
+
+                    if( !(validFormat in InkValidator._dateParsers ) ){
+                        var validValues = [];
+                        for( var val in InkValidator._dateParsers ){
+                            if (InkValidator._dateParsers.hasOwnProperty(val)) {
+                                validValues.push(val);
+                            }
+                        }
+                        throw new Error(
+                            'The attribute data-valid-format must be one of ' +
+                            'the following values: ' + validValues.join(', '));
+                    }
+                    
+                    return InkValidator.isDate( validFormat, elm.value );
                 case 'ink-fv-custom':
                     break;
             }
@@ -602,8 +538,7 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
          * @param {Array} aFail An array with the errors found.
          * @private
          */
-        _showError: function(formElm, aFail)
-        {
+        _showError: function(formElm, aFail) {
             this._clearError(formElm);
 
             //ink-warning-field
@@ -612,45 +547,46 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
             var curElm = false;
             for(var i=0, tFail = aFail.length; i < tFail; i++) {
                 curElm = aFail[i].elm;
+                if (curElm) {
+                    this._showAnErrorOnElement(curElm, aFail[i]);
+                }
+            }
+        },
 
-                if(curElm.getAttribute('type') !== 'radio') {
+        _showAnErrorOnElement: function (curElm, error) {
+            /* jshint noempty:false */
 
-                    var newLabel = document.createElement('p');
-                    //newLabel.setAttribute('for',curElm.id);
-                    //newLabel.className = this._errorClassName;
-                    //newLabel.className += ' ' + this._errorTypeErrorClassName;
-                    Css.addClassName(newLabel, this._errorClassName);
-                    Css.addClassName(newLabel, this._errorTypeErrorClassName);
-                    if(aFail[i].errors[0] !== 'ink-fv-custom') {
-                        newLabel.innerHTML = this._flagMap[aFail[i].errors[0]].msg;
-                    } else {
-                        newLabel.innerHTML = aFail[i].custom[0].msg;
-                    }
+            var controlGroupElm = InkElement.findUpwardsByClass(
+                    curElm, 'control-group');
+            var controlElm = InkElement.findUpwardsByClass(
+                    curElm, 'control');
 
-                    if(curElm.getAttribute('type') !== 'checkbox') {
-                        curElm.nextSibling.parentNode.insertBefore(newLabel, curElm.nextSibling);
-                        if(Css.hasClassName(curElm.parentNode, 'control')) {
-                            Css.addClassName(curElm.parentNode.parentNode, 'validation');
-                            if(aFail[i].errors[0] === 'ink-fv-required') {
-                                Css.addClassName(curElm.parentNode.parentNode, 'error');
-                            } else {
-                                Css.addClassName(curElm.parentNode.parentNode, 'warning');
-                            }
-                        }
-                    } else {
-                        /* // TODO checkbox... does not work with this CSS
-                        curElm.parentNode.appendChild(newLabel);
-                        if(Css.hasClassName(curElm.parentNode.parentNode, 'control-group')) {
-                            Css.addClassName(curElm.parentNode.parentNode, 'control');
-                            Css.addClassName(curElm.parentNode.parentNode, 'validation');
-                            Css.addClassName(curElm.parentNode.parentNode, 'error');
-                        }*/
-                    }
+            var errorClasses = [
+                this._errorClassName,
+                this._errorTypeClassName].join(' ');
+
+            var errorMsg = InkElement.create('p', {
+                className: errorClasses
+            });
+
+            if(error.errors[0] !== 'ink-fv-custom') {
+                errorMsg.innerHTML = this._flagMap[error.errors[0]].msg;
+            } else {
+                errorMsg.innerHTML = error.custom[0].msg;
+            }
+
+            var target = (controlElm || controlGroupElm);
+            if (target) {
+                target.appendChild(errorMsg);
+            } else {
+                InkElement.insertAfter(errorMsg, curElm);
+            }
+
+            if (controlElm) {
+                if(error.errors[0] === 'ink-fv-required') {
+                    Css.addClassName(controlGroupElm, 'validation error');
                 } else {
-                    if(Css.hasClassName(curElm.parentNode.parentNode, 'control-group')) {
-                        Css.addClassName(curElm.parentNode.parentNode, 'validation');
-                        Css.addClassName(curElm.parentNode.parentNode, 'error');
-                    }
+                    Css.addClassName(controlGroupElm, 'validation warning');
                 }
             }
         },
@@ -662,23 +598,23 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
          * @param {DOMElement} formElm Form element to be cleared.
          * @private
          */
-        _clearError: function(formElm)
-        {
+        _clearError: function(formElm) {
             //return;
             var aErrorLabel = formElm.getElementsByTagName('p');
 
-            var curElm = false;
+            var curElm;
+            var control;
+
             for(var i = (aErrorLabel.length - 1); i >= 0; i--) {
                 curElm = aErrorLabel[i];
                 if(Css.hasClassName(curElm, this._errorClassName)) {
-                    if(Css.hasClassName(curElm.parentNode, 'control')) {
-                        Css.removeClassName(curElm.parentNode.parentNode, 'validation');
-                        Css.removeClassName(curElm.parentNode.parentNode, 'error');
-                        Css.removeClassName(curElm.parentNode.parentNode, 'warning');
+                    control = InkElement.findUpwardsBySelector(curElm, '.control-group');
+                    if (control) {
+                        Css.removeClassName(control, ['validation', 'error', 'warning']);
                     }
 
-                    if(Css.hasClassName(curElm,'tip') && Css.hasClassName(curElm,'error')){
-                        curElm.parentNode.removeChild(curElm);
+                    if(Css.hasClassName(curElm, this._errorClassName, true /*both*/)) {
+                        InkElement.remove(curElm);
                     }
                 }
             }
@@ -687,8 +623,7 @@ Ink.createModule('Ink.UI.FormValidator', '1', ['Ink.Dom.Css_1','Ink.Util.Validat
             for(i = (aErrorLabel2.length - 1); i >= 0; i--) {
                 curElm = aErrorLabel2[i];
                 if(Css.hasClassName(curElm, 'control-group')) {
-                    Css.removeClassName(curElm, 'validation');
-                    Css.removeClassName(curElm, 'error');
+                    Css.removeClassName(curElm, 'validation error');
                 }
             }
         },

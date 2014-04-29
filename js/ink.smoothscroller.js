@@ -1,15 +1,53 @@
 /**
+ * Scroll to content
  * @module Ink.UI.SmoothScroller_1
- * @author inkdev AT sapo.pt
  * @version 1
  */
-Ink.createModule('Ink.UI.SmoothScroller', '1', ['Ink.Dom.Event_1','Ink.Dom.Selector_1','Ink.Dom.Loaded_1'], function(Event, Selector, Loaded ) {
+Ink.createModule('Ink.UI.SmoothScroller', '1', ['Ink.Dom.Event_1', 'Ink.Dom.Element_1', 'Ink.Dom.Selector_1','Ink.Dom.Loaded_1'], function(Event, InkElement, Selector, Loaded) {
     'use strict';
 
+    var requestAnimationFrame =
+        window.requestAnimationFrame ||
+        function (cb) { return setTimeout(cb, 10); };
+
+    var cancelAnimationFrame =
+        window.cancelAnimationFrame ||
+        function (id) { clearTimeout(id); };
+
     /**
-     * @class Ink.UI.SmoothScroller
+     * @namespace Ink.UI.SmoothScroller
      * @version 1
      * @static
+     *
+     * SmoothScroller is a component which replaces the default scroll-to behaviour of `<a>` tags which refer to IDs on the page.
+     *
+     * For example, when you have this:
+     *
+     *          <a href="#todo">Todo</a>
+     *              [...]
+     *          <section id="todo">
+     *              [...]
+     *
+     * You can click the `<a>` and the page will scroll until the section you pointed to.
+     *
+     * When you use SmoothScroller, instead of immediately scrolling to the element, you get a smooth motion.
+     *
+     * Also, you can define the data-margin option if you have a `position:fixed` top menu ruining the behaviour.
+     *
+     * @example
+     *
+     *      <a href="#part1" class="ink-smooth-scroll" data-margin="10">go to Part 1</a>
+     *
+     *      [lots and lots of content...]
+     *
+     *      <h1 id="part1">Part 1</h1>
+     *
+     *      <script>
+     *          // ...Although you don't need to do this if you have autoload.js
+     *          Ink.requireModules(['Ink.UI.SmoothScroller_1'], function (SmoothScroller) {
+     *              SmoothScroller.init('.ink-smooth-scroll');
+     *          })
+     *      </script>
      */
     var SmoothScroller = {
 
@@ -24,23 +62,17 @@ Ink.createModule('Ink.UI.SmoothScroller', '1', ['Ink.Dom.Event_1','Ink.Dom.Selec
         speed: 10,
 
         /**
-         * Returns the Y position of the div
+         * Returns the Y position of an element, relative to the document
          *
-         * @method gy
+         * @method getTop
          * @param  {DOMElement} d DOMElement to get the Y position from
          * @return {Number}   Y position of div 'd'
          * @public
          * @static
          */
-        gy: function(d) {
-            var gy;
-            gy = d.offsetTop;
-            if (d.offsetParent){
-                while ( (d = d.offsetParent) ){
-                    gy += d.offsetTop;
-                }
-            }
-            return gy;
+        getTop: function(d) {
+            return Math.round(
+                SmoothScroller.scrollTop() + d.getBoundingClientRect().top);
         },
 
 
@@ -53,18 +85,15 @@ Ink.createModule('Ink.UI.SmoothScroller', '1', ['Ink.Dom.Event_1','Ink.Dom.Selec
          * @static
          */
         scrollTop: function() {
-            var
-                body = document.body,
-                d = document.documentElement
-            ;
+            var body = document.body,
+                d = document.documentElement;
             if (body && body.scrollTop){
                 return body.scrollTop;
             }
             if (d && d.scrollTop){
                 return d.scrollTop;
             }
-            if (window.pageYOffset)
-            {
+            if (window.pageYOffset){
                 return window.pageYOffset;
             }
             return 0;
@@ -82,7 +111,6 @@ Ink.createModule('Ink.UI.SmoothScroller', '1', ['Ink.Dom.Event_1','Ink.Dom.Selec
          */
         add: function(el, event, fn) {
             Event.observe(el,event,fn);
-            return;
         },
 
 
@@ -96,69 +124,72 @@ Ink.createModule('Ink.UI.SmoothScroller', '1', ['Ink.Dom.Event_1','Ink.Dom.Selec
          */
         // kill an event of an element
         end: function(e) {
-            if (window.event) {
-                window.event.cancelBubble = true;
-                window.event.returnValue = false;
-                return;
-            }
-            Event.stop(e);
+            Event.stopDefault(e);
         },
 
 
         /**
-         * Moves the scrollbar to the target element
+         * Moves the scrollbar to the target element. This is the function
+         * which animates the scroll position bit by bit. It calls itself in
+         * the end through requestAnimationFrame
          *
          * @method scroll
          * @param  {Number} d Y coordinate value to stop
          * @public
          * @static
          */
-        scroll: function(d) {
-            var a = Ink.UI.SmoothScroller.scrollTop();
-            if (d > a) {
-                a += Math.ceil((d - a) / Ink.UI.SmoothScroller.speed);
+        scroll: function(d, options) {
+            var a = SmoothScroller.scrollTop();
+            var margin = options.margin || 0;
+
+            var endPos = d - margin;
+
+            if (endPos > a) {
+                a += Math.ceil((endPos - a) / SmoothScroller.speed);
             } else {
-                a = a + (d - a) / Ink.UI.SmoothScroller.speed;
+                a = a + (endPos - a) / SmoothScroller.speed;
+            }
+
+            cancelAnimationFrame(SmoothScroller.interval);
+
+            if (!((a) === endPos || SmoothScroller.offsetTop === a)) {
+                SmoothScroller.interval = requestAnimationFrame(
+                    Ink.bindMethod(SmoothScroller, 'scroll', d, options), document.body);
+            } else {
+                SmoothScroller.onDone();
             }
 
             window.scrollTo(0, a);
-            if ((a) === d || Ink.UI.SmoothScroller.offsetTop === a)
-            {
-                clearInterval(Ink.UI.SmoothScroller.interval);
-            }
-            Ink.UI.SmoothScroller.offsetTop = a;
+            SmoothScroller.offsetTop = a;
         },
 
 
         /**
-         * Initializer that adds the rendered to run when the page is ready
+         * Has smooth scrolling applied to relevant elements upon page load.
          *
          * @method init
+         * @param [selector='a.scrollableLink,a.ink-smooth-scroll'] Selector string for finding links with smooth scrolling enabled.
          * @public
          * @static
          */
-        // initializer that adds the renderer to the onload function of the window
-        init: function() {
-            Loaded.run(Ink.UI.SmoothScroller.render);
+        init: function(selector) {
+            Loaded.run(Ink.bindMethod(SmoothScroller, 'render', selector));
         },
 
         /**
-         * This method extracts all the anchors and validates thenm as # and attaches the events
+         * This method extracts all the anchors and validates them as # and attaches the events
          *
          * @method render
          * @public
          * @static
          */
-        render: function() {
-            var a = Selector.select('a.scrollableLink');
-
-            Ink.UI.SmoothScroller.end(this);
+        render: function(selector) {
+            var a = Selector.select(selector || 'a.scrollableLink,a.ink-smooth-scroll');
 
             for (var i = 0; i < a.length; i++) {
                 var _elm = a[i];
                 if (_elm.href && _elm.href.indexOf('#') !== -1 && ((_elm.pathname === location.pathname) || ('/' + _elm.pathname === location.pathname))) {
-                    Ink.UI.SmoothScroller.add(_elm, 'click', Ink.UI.SmoothScroller.end);
-                    Event.observe(_elm,'click', Ink.bindEvent(Ink.UI.SmoothScroller.clickScroll, this, _elm));
+                    Event.observe(_elm,'click', Ink.bindEvent(SmoothScroller.onClick, this, _elm));
                 }
             }
         },
@@ -167,62 +198,49 @@ Ink.createModule('Ink.UI.SmoothScroller', '1', ['Ink.Dom.Event_1','Ink.Dom.Selec
         /**
          * Click handler
          *
-         * @method clickScroll
+         * @method onClick
          * @public
          * @static
          */
-        clickScroll: function(event, _elm) {
-            /*
-            Ink.UI.SmoothScroller.end(this);
-            var hash = this.hash.substr(1);
-            var elm = Selector.select('a[name="' + hash + '"],#' + hash);
-
-            if (typeof(elm[0]) !== 'undefined') {
-
-                if (this.parentNode.className.indexOf('active') === -1) {
-                    var ul = this.parentNode.parentNode,
-                        li = ul.firstChild;
-                    do {
-                        if ((typeof(li.tagName) !== 'undefined') && (li.tagName.toUpperCase() === 'LI') && (li.className.indexOf('active') !== -1)) {
-                            li.className = li.className.replace('active', '');
-                            break;
-                        }
-                    } while ((li = li.nextSibling));
-                    this.parentNode.className += " active";
-                }
-                clearInterval(Ink.UI.SmoothScroller.interval);
-                Ink.UI.SmoothScroller.interval = setInterval('Ink.UI.SmoothScroller.scroll(' + Ink.UI.SmoothScroller.gy(elm[0]) + ')', 10);
-
-            }
-            */
-            Ink.UI.SmoothScroller.end(_elm);
-            if(_elm !== null && _elm.getAttribute('href') !== null) {
+        onClick: function(event, _elm) {
+            SmoothScroller.end(event);
+            if(_elm != null && _elm.getAttribute('href') !== null) {
                 var hashIndex = _elm.href.indexOf('#');
-                if(hashIndex === -1) {
+                if (hashIndex === -1) {
                     return;
                 }
+
+                var data = InkElement.data(_elm);
                 var hash = _elm.href.substr((hashIndex + 1));
-                var elm = Selector.select('a[name="' + hash + '"],#' + hash);
+                var activeLiSelector = 'ul > li.active > ' + selector;
 
-                if (typeof(elm[0]) !== 'undefined') {
+                var selector = 'a[name="' + hash + '"],#' + hash;
+                var elm = Selector.select(selector)[0];
+                var activeLi = Selector.select(activeLiSelector)[0];
+                activeLi = activeLi && activeLi.parentNode;
 
+                if (typeof(elm) !== 'undefined') {
                     if (_elm.parentNode.className.indexOf('active') === -1) {
-                        var ul = _elm.parentNode.parentNode,
-                            li = ul.firstChild;
-                        do {
-                            if ((typeof(li.tagName) !== 'undefined') && (li.tagName.toUpperCase() === 'LI') && (li.className.indexOf('active') !== -1)) {
-                                li.className = li.className.replace('active', '');
-                                break;
-                            }
-                        } while ((li = li.nextSibling));
+                        if (activeLi) {
+                            activeLi.className = activeLi.className.replace(/(^|\s+)active($|\s+)/g, '');
+                        }
                         _elm.parentNode.className += " active";
                     }
-                    clearInterval(Ink.UI.SmoothScroller.interval);
-                    Ink.UI.SmoothScroller.interval = setInterval('Ink.UI.SmoothScroller.scroll(' + Ink.UI.SmoothScroller.gy(elm[0]) + ')', 10);
-
+                    SmoothScroller.hash = hash;
+                    var options = {};
+                    if (parseFloat(data.margin)) {
+                        options.margin = parseFloat(data.margin);
+                    }
+                    SmoothScroller.scroll(SmoothScroller.getTop(elm), options);
                 }
             }
+        },
 
+        /**
+         * Called when the scroll movement is done. Updates browser address.
+         */
+        onDone: function () {
+            window.location.hash = SmoothScroller.hash;
         }
     };
 

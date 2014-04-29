@@ -1,77 +1,53 @@
 /**
+ * Display tabbed content
  * @module Ink.UI.Tabs_1
- * @author inkdev AT sapo.pt
  * @version 1
  */
-Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.Css_1','Ink.Dom.Element_1','Ink.Dom.Selector_1','Ink.Util.Array_1'], function(Aux, Event, Css, Element, Selector, InkArray ) {
+Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Common_1','Ink.Dom.Event_1','Ink.Dom.Css_1','Ink.Dom.Element_1','Ink.Dom.Selector_1'], function(Common, Event, Css, Element, Selector) {
     'use strict';
 
     /**
-     * Tabs component
-     * 
+     * The Tabs Component offers a simple way to build a tab-separated layout, allowing you to offer multiple content in the same space with intuitive navigation.
+     * This component requires your markup to have:
+     * - A container element (this is what you call the Ink.UI.Tabs constructor on), containing everything.
+     * - An element with the `tabs-nav` class, to contain links.
+     * - Your links with `href="#ID_OF_SECTION"`
+     * - Your sections with the corresponding `id` attributes.
+     * - The content for each section.
+     *
+     * When the user clicks in the links inside `tabs-nav`, the tab with the corresponding ID is then activated. The active tab when the tab component is initialized has its hash in the browser URL. If there is no hash, then the `active` option kicks in. Otherwise, Tabs will fall back to showing the tab corresponding to the first link.
+     * You can disable some (or all) tabs by passing an array for the `disabled` option.
+     *
      * @class Ink.UI.Tabs
      * @constructor
      * @version 1
-     * @param {String|DOMElement} selector
-     * @param {Object} [options] Options
-     *     @param {Boolean}      [options.preventUrlChange]        Flag that determines if follows the link on click or stops the event
-     *     @param {String}       [options.active]                  ID of the tab to activate on creation
-     *     @param {Array}        [options.disabled]                IDs of the tabs that will be disabled on creation
-     *     @param {Function}     [options.onBeforeChange]          callback to be executed before changing tabs
-     *     @param {Function}     [options.onChange]                callback to be executed after changing tabs
-     * @example
-     *      <div class="ink-tabs top"> <!-- replace 'top' with 'bottom', 'left' or 'right' to place navigation -->
-     *          
-     *          <!-- put navigation first if using top, left or right positioning -->
-     *          <ul class="tabs-nav">
-     *              <li><a href="#home">Home</a></li>
-     *              <li><a href="#news">News</a></li>
-     *              <li><a href="#description">Description</a></li>
-     *              <li><a href="#stuff">Stuff</a></li>
-     *              <li><a href="#more_stuff">More stuff</a></li>
-     *          </ul>
-     *          
-     *          <!-- Put your content second if using top, left or right navigation -->
-     *          <div id="home" class="tabs-content"><p>Content</p></div>
-     *          <div id="news" class="tabs-content"><p>Content</p></div>
-     *          <div id="description" class="tabs-content"><p>Content</p></div>
-     *          <div id="stuff" class="tabs-content"><p>Content</p></div>
-     *          <div id="more_stuff" class="tabs-content"><p>Content</p></div>
-     *          <!-- If you're using bottom navigation, switch the nav block with the content blocks -->
-     *       
-     *      </div>
-     *      <script>
-     *          Ink.requireModules( ['Ink.Dom.Selector_1','Ink.UI.Tabs_1'], function( Selector, Tabs ){
-     *              var tabsElement = Ink.s('.ink-tabs');
-     *              var tabsObj = new Tabs( tabsElement );
-     *          });
-     *      </script>
+     * @param {String|DOMElement}   selector
+     * @param {Object}              [options]                       Options
+     * @param {Boolean}             [options.preventUrlChange]      Flag that determines if follows the link on click or stops the event
+     * @param {String}              [options.active]                ID of the tab to activate on creation
+     * @param {Array}               [options.disabled]              IDs of the tabs that will be disabled on creation
+     * @param {Function}            [options.onBeforeChange]        Callback to be executed before changing tabs
+     * @param {Function}            [options.onChange]              Callback to be executed after changing tabs
+     * @param {Boolean}             [options.triggerEventsOnLoad]   Trigger the above events when the page is loaded.
+     *
+     * @sample Ink_UI_Tabs_1.html
      */
     var Tabs = function(selector, options) {
+        this._element = Common.elOrSelector(selector, 'Ink.UI.Tabs tab container');
 
-        if (!Aux.isDOMElement(selector)) {
-            selector = Selector.select(selector);
-            if (selector.length === 0) { throw new TypeError('1st argument must either be a DOM Element or a selector expression!'); }
-            this._element = selector[0];
-        } else {
-            this._element = selector;
-        }
-
-
-        this._options = Ink.extendObj({
-            preventUrlChange: false,
-            active: undefined,
-            disabled: [],
-            onBeforeChange: undefined,
-            onChange: undefined
-        }, Element.data(selector));
-
-        this._options = Ink.extendObj(this._options,options || {});
+        this._options = Common.options({
+            preventUrlChange:   ['Boolean', false],
+            active:             ['String', undefined],
+            disabled:           ['Object', []],
+            onBeforeChange:     ['Function', undefined],
+            onChange:           ['Function', undefined],
+            triggerEventsOnLoad:['Boolean', true]
+        }, options || {}, this._element, 'Ink.UI.Tabs_1');
 
         this._handlers = {
             tabClicked: Ink.bindEvent(this._onTabClicked,this),
             disabledTabClicked: Ink.bindEvent(this._onDisabledTabClicked,this),
-            resize: Ink.bindEvent(this._onResize,this)
+            resize: Ink.bindEvent(Event.throttle(this._onResize, 100),this)
         };
 
         this._init();
@@ -87,7 +63,10 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
          */
         _init: function() {
             this._menu = Selector.select('.tabs-nav', this._element)[0];
-            this._menuTabs = this._getChildElements(this._menu);
+            if (!this._menu) {
+                Ink.warn('Ink.UI.Tabs: An element selected by ".tabs-nav" needs to exist inside the element!');
+                return;
+            }
             this._contentTabs = Selector.select('.tabs-content', this._element);
 
             //initialization of the tabs, hides all content before setting the active tab
@@ -99,12 +78,9 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
             //sets the first active tab
             this._setFirstActive();
 
-            //shows the active tab
-            this._changeTab(this._activeMenuLink);
-
             this._handlers.resize();
 
-            Aux.registerInstance(this, this._element, 'tabs');
+            Common.registerInstance(this, this._element, 'Tabs');
         },
 
         /**
@@ -114,8 +90,10 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
          * @private
          */
         _initializeDom: function(){
-            for(var i = 0; i < this._contentTabs.length; i++){
-                Css.hide(this._contentTabs[i]);
+            var contentTabs = Selector.select('.tabs-content', this._element);
+
+            for(var i = 0; i < contentTabs.length; i++){
+                Css.addClassName(contentTabs[i], 'hide-all');
             }
         },
 
@@ -126,15 +104,7 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
          * @private
          */
         _observe: function() {
-            InkArray.each(this._menuTabs,Ink.bind(function(elem){
-                var link = Selector.select('a', elem)[0];
-                if(InkArray.inArray(link.getAttribute('href'), this._options.disabled)){
-                    this.disable(link);
-                } else {
-                    this.enable(link);
-                }
-            },this));
-
+            Event.on(this._menu, 'click', '> *', Ink.bindMethod(this, '_onTabClickedGeneric'));
             Event.observe(window, 'resize', this._handlers.resize);
         },
 
@@ -147,12 +117,12 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
          */
         _setFirstActive: function() {
             var hash = window.location.hash;
-            this._activeContentTab = Selector.select(hash, this._element)[0] ||
-                                     Selector.select(this._hashify(this._options.active), this._element)[0] ||
-                                     Selector.select('.tabs-content', this._element)[0];
 
-            this._activeMenuLink = this._findLinkByHref(this._activeContentTab.getAttribute('id'));
-            this._activeMenuTab = this._activeMenuLink.parentNode;
+            var activeMenuLink = this._findLinkByHref(hash) ||
+                                 (this._options.active && this._findLinkByHref(this._options.active)) ||
+                                 Selector.select('a', this._menu)[0];
+
+            this._changeTab(activeMenuLink, this._options.triggerEventsOnLoad);
         },
 
         /**
@@ -169,21 +139,41 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
             }
 
             var selector = link.getAttribute('href');
-            Css.removeClassName(this._activeMenuTab, 'active');
-            Css.removeClassName(this._activeContentTab, 'active');
-            Css.addClassName(this._activeContentTab, 'hide-all');
+            if (this._activeMenuTab) {
+                Css.removeClassName(this._activeMenuTab, 'active');
+                Css.removeClassName(this._activeContentTab, 'active');
+                Css.addClassName(this._activeContentTab, 'hide-all');
+            }
 
             this._activeMenuLink = link;
             this._activeMenuTab = this._activeMenuLink.parentNode;
             this._activeContentTab = Selector.select(selector.substr(selector.indexOf('#')), this._element)[0];
 
+            if (!this._activeContentTab) {
+                this._activeMenuLink = this._activeMenuTab = this._activeContentTab = null;
+                return;
+            }
+
             Css.addClassName(this._activeMenuTab, 'active');
             Css.addClassName(this._activeContentTab, 'active');
             Css.removeClassName(this._activeContentTab, 'hide-all');
-            Css.show(this._activeContentTab);
 
             if(runCallbacks && typeof(this._options.onChange) !== 'undefined'){
                 this._options.onChange(this);
+            }
+        },
+
+        /**
+         * Generic Tab clicked handler.
+         * Just calls _onTabClicked or _onDisabledTabClicked
+         *
+         * @private
+         **/
+        _onTabClickedGeneric: function (event) {
+            if (!Css.hasClassName(event.currentTarget, 'ink-disabled')) {
+                this._onTabClicked(event);
+            } else {
+                this._onDisabledTabClicked(event);
             }
         },
 
@@ -198,15 +188,21 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
             Event.stop(ev);
 
             var target = Event.findElement(ev, 'A');
-            if(target.nodeName.toLowerCase() !== 'a') {
+            if(!target || target.nodeName.toLowerCase() !== 'a') {
                 return;
             }
 
-            if( this._options.preventUrlChange.toString() !== 'true'){
-                window.location.hash = target.getAttribute('href').substr(target.getAttribute('href').indexOf('#'));
+            var href = target.getAttribute('href').substr(target.getAttribute('href').indexOf('#'));
+
+            if (!href || Ink.i(href.replace(/^#/, '')) === null) {
+                return;
             }
 
-            if(target === this._activeMenuLink){
+            if (this._options.preventUrlChange.toString() !== 'true') {
+                window.location.hash = href;
+            }
+
+            if (target === this._activeMenuLink) {
                 return;
             }
             this.changeTab(target);
@@ -230,12 +226,18 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
          * @private
          */
         _onResize: function(){
-            var currentLayout = Aux.currentLayout();
+            var currentLayout = Common.currentLayout();
             if(currentLayout === this._lastLayout){
                 return;
             }
 
-            if(currentLayout === Aux.Layouts.SMALL || currentLayout === Aux.Layouts.MEDIUM){
+            // wtf
+            var smallLayout =
+                currentLayout === Common.Layouts.TINY ||
+                currentLayout === Common.Layouts.SMALL ||
+                currentLayout === Common.Layouts.MEDIUM;
+
+            if(smallLayout){
                 Css.removeClassName(this._menu, 'menu');
                 Css.removeClassName(this._menu, 'horizontal');
                 // Css.addClassName(this._menu, 'pills');
@@ -276,33 +278,9 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
          */
         _findLinkByHref: function(href){
             href = this._hashify(href);
-            var ret;
-            InkArray.each(this._menuTabs,Ink.bind(function(elem){
-                var link = Selector.select('a', elem)[0];
-                if( (link.getAttribute('href').indexOf('#') !== -1) && ( link.getAttribute('href').substr(link.getAttribute('href').indexOf('#')) === href ) ){
-                    ret = link;
-                }
-            },this));
-            return ret;
-        },
 
-        /**
-         * Returns the child elements of a given parent element
-         * 
-         * @method _getChildElements
-         * @param {DOMElement} parent  DOMElement to fetch the child elements from.
-         * @return {Array}  Child elements of the given parent.
-         * @private
-         */
-        _getChildElements: function(parent){
-            var childNodes = [];
-            var children = parent.children;
-            for(var i = 0; i < children.length; i++){
-                if(children[i].nodeType === 1){
-                    childNodes.push(children[i]);
-                }
-            }
-            return childNodes;
+            // Find a link which has a href ending with...
+            return Selector.select('a[href$="' + href + '"]', this._menu)[0];
         },
 
         /**************
@@ -310,10 +288,12 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
          **************/
 
         /**
-         * Changes to the desired tag
+         * Changes the active tab
+         *
+         * Pass a selector/element identifying what tab you want
          * 
          * @method changeTab
-         * @param {String|DOMElement} selector      the id of the desired tab or the link that links to it
+         * @param {String|DOMElement} selector      Selector of the desired tab or the link that links to it
          * @public
          */
         changeTab: function(selector) {
@@ -325,6 +305,18 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
         },
 
         /**
+         * The enable() and disable() functions do exactly the same thing.
+         * one adds the className and the other removes it.
+         **/
+        _enableOrDisableDRY: function (selector, isEnable) {
+            var element = (selector.nodeType === 1)? selector : this._findLinkByHref(this._hashify(selector));
+            if(!element){
+                return;
+            }
+            Css.setClassName(element, 'ink-disabled', !isEnable);
+        },
+
+        /**
          * Disables the desired tag
          * 
          * @method disable
@@ -332,30 +324,18 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
          * @public
          */
         disable: function(selector){
-            var element = (selector.nodeType === 1)? selector : this._findLinkByHref(this._hashify(selector));
-            if(!element){
-                return;
-            }
-            Event.stopObserving(element, 'click', this._handlers.tabClicked);
-            Event.observe(element, 'click', this._handlers.disabledTabClicked);
-            Css.addClassName(element, 'ink-disabled');
+            this._enableOrDisableDRY(selector, false);
         },
 
-         /**
+        /**
          * Enables the desired tag
          * 
          * @method enable
-         * @param {String|DOMElement} selector      the id of the desired tab or the link that links to it
+         * @param {String|DOMElement} selector      The id of the desired tab or the link that links to it
          * @public
          */
         enable: function(selector){
-            var element = (selector.nodeType === 1)? selector : this._findLinkByHref(this._hashify(selector));
-            if(!element){
-                return;
-            }
-            Event.stopObserving(element, 'click', this._handlers.disabledTabClicked);
-            Event.observe(element, 'click', this._handlers.tabClicked);
-            Css.removeClassName(element, 'ink-disabled');
+            this._enableOrDisableDRY(selector, true);
         },
 
         /***********
@@ -374,21 +354,29 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
         },
 
         /**
-         * Returns the current active Menu LI
-         * 
+         *
+         * Returns the parent of the currently active menu link.
+         *
+         * This is useful if you want to have `li` elements wrapping your links
+         * and want to access the currently visible one.
+         *
+         * (This method is deprecated)
          * @method activeMenuTab
-         * @return {DOMElement} Active menu LI.
+         * @deprecated
+         * @return {DOMElement|null} Active menu LI, or `null` if there is none.
          * @public
          */
         activeMenuTab: function(){
+            // [3.1.0] remove this
+            Ink.warn('Ink.UI.Tabs.activeMenuTab() is deprecated');
             return this._activeMenuTab;
         },
 
         /**
-         * Returns the current active Menu anchorChanges to the desired tag
+         * Gets the currently active Menu link (the links which the user clicks on to change tabs)
          * 
          * @method activeMenuLink
-         * @return {DOMElement} Active menu link
+         * @return {DOMElement|null} Active menu link, or `null` if there is none.
          * @public
          */
         activeMenuLink: function(){
@@ -396,10 +384,12 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
         },
 
         /**
-         * Returns the current active Content Tab
+         * Gets the currently active section
+         *
+         * (Each section contains content for a tab, and must have an `id` attribute)
          * 
          * @method activeContentTab
-         * @return {DOMElement} Active Content Tab
+         * @return {DOMElement|null} Active section, or `null` if there is none.
          * @public
          */
         activeContentTab: function(){
@@ -407,12 +397,12 @@ Ink.createModule('Ink.UI.Tabs', '1', ['Ink.UI.Aux_1','Ink.Dom.Event_1','Ink.Dom.
         },
 
         /**
-         * Unregisters the component and removes its markup from the DOM
+         * Unregisters the component and removes its markup
          * 
          * @method destroy
          * @public
          */
-        destroy: Aux.destroyComponent
+        destroy: Common.destroyComponent
     };
 
     return Tabs;
