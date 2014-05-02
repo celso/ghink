@@ -5,7 +5,7 @@ Ghink is a [github pages] [1], plus [Jekyll] [7], plus [InK] [6] boilerplate. An
 
 Ghink offers a quick starting point, a number of common elements and patterns used with modern websites, and some recipes to get you going.
 
-It's currently based on versions 2.2.1 of [Ink] [6], and 1.2.1 of [Jekyll] [7].
+It's currently based on versions 3.0.0 of [Ink] [6], and 1.5.1 of [Jekyll] [7].
 
 What is InK exactly?
 --------------------

@@ -1,47 +1,41 @@
 /**
+ * Content Tooltips
  * @module Ink.UI.Tooltip_1
- * @author inkdev AT sapo.pt
+ * @version 1
  */
-Ink.createModule('Ink.UI.Tooltip', '1', ['Ink.UI.Aux_1', 'Ink.Dom.Event_1', 'Ink.Dom.Element_1', 'Ink.Dom.Selector_1', 'Ink.Util.Array_1', 'Ink.Dom.Css_1', 'Ink.Dom.Browser_1'], function (Aux, InkEvent, InkElement, Selector, InkArray, Css) {
+Ink.createModule('Ink.UI.Tooltip', '1', ['Ink.UI.Common_1', 'Ink.Dom.Event_1', 'Ink.Dom.Element_1', 'Ink.Dom.Selector_1', 'Ink.Util.Array_1', 'Ink.Dom.Css_1', 'Ink.Dom.Browser_1'], function (Common, InkEvent, InkElement, Selector, InkArray, Css) {
     'use strict';
 
     /**
+     * Tooltips are useful as a means to display information about functionality while avoiding clutter.
+     *
+     * Tooltips show up when you hover elements which "have" tooltips.
+     *
+     * This class will "give" a tooltip to many elements, selected by its first argument (`target`). This is contrary to the other UI modules in Ink, which are created once per element.
+     *
+     * You can define options either through the second argument of the Tooltip constructor, or as data-attributes in each `target` element. Options set through data-attributes all start with "data-tip", and override options passed into the Tooltip constructor.
+     *
      * @class Ink.UI.Tooltip
      * @constructor
      *
-     * @param {DOMElement|String} target Target element or selector of elements, to display the tooltips on.
-     * @param {Object} [options]
-     *     @param [options.text='']             Text content for the tooltip.
-     *     @param [options.where='up']          Positioning for the tooltip. Options:
-     *          @param options.where.up/down/left/right     Place above, below, to the left of, or to the right of, the target. Show an arrow.
-     *          @param options.where.mousemove  Place the tooltip to the bottom and to the right of the mouse when it hovers the element, and follow the mouse as it moves.
-     *          @param options.where.mousefix   Place the tooltip to the bottom and to the right of the mouse when it hovers the element, keep the tooltip there motionless.
+     * @param {DOMElement|String}   target                  Target element or selector of elements, to display the tooltips on.
+     * @param {Object}              [options]               Options object
+     * @param {String}              [options.text]          Text content for the tooltip.
+     * @param {String}              [options.html]          HTML for the tooltip. Same as above, but won't escape HTML.
+     * @param {String}              [options.where]         Positioning for the tooltip. Options are 'up', 'down', 'left', 'right', 'mousemove' (follows the cursor), and 'mousefix' (stays fixed). Defaults to 'up'.
      *     
-     *     @param [options.color='']            Color of the tooltip. Options are red, orange, blue, green and black. Default is white.
-     *     @param [options.fade=0.3]            Fade time; Duration of the fade in/out effect.
-     *     @param [options.forever=0]           Set to 1/true to prevent the tooltip from being erased when the mouse hovers away from the target
-     *     @param [options.timeout=0]           Time for the tooltip to live. Useful together with [options.forever].
-     *     @param [options.delay]               Time the tooltip waits until it is displayed. Useful to avoid getting the attention of the user unnecessarily
-     *     @param [options.template=null]       Element or selector containing HTML to be cloned into the tooltips. Can be a hidden element, because CSS `display` is set to `block`.
-     *     @param [options.templatefield=null]  Selector within the template element to choose where the text is inserted into the tooltip. Useful when a wrapper DIV is required.
-     *
-     *     @param [options.left,top=10]         (Nitty-gritty) Spacing from the target to the tooltip, when `where` is `mousemove` or `mousefix`
-     *     @param [options.spacing=8]           (Nitty-gritty) Spacing between the tooltip and the target element, when `where` is `up`, `down`, `left`, or `right`
+     * @param {String}              [options.color]         Color of the tooltip. Options are red, orange, blue, green and black. Default is white.
+     * @param {Number}              [options.fade]          Number of seconds to fade in/out. Defaults to 0.3.
+     * @param {Boolean}             [options.forever]       Flag to prevent the tooltip from being erased when the mouse hovers away from the target.
+     * @param {Number}              [options.timeout]       Number of seconds the tooltip will stay open. Useful together with options.forever. Defaults to 0.
+     * @param {Number}              [options.delay]         Time the tooltip waits until it is displayed. Useful to avoid getting the attention of the user unnecessarily
+     * @param {DOMElement|Selector} [options.template]      Element or selector containing HTML to be cloned into the tooltips. Can be a hidden element, because CSS `display` is set to `block`.
+     * @param {String}              [options.templatefield] Selector within the template element to choose where the text is inserted into the tooltip. Useful when a wrapper DIV is required.
+     * @param {Number}              [options.left]          Spacing from the target to the tooltip, when `where` is `mousemove` or `mousefix`. Defaults to 10.
+     * @param {Number}              [options.top]           Spacing from the target to the tooltip, when `where` is `mousemove` or `mousefix`. Defaults to 10.
+     * @param {Number}              [options.spacing]       Spacing between the tooltip and the target element, when `where` is not `mousemove` or `mousefix`. Defaults to 8.
      * 
-     * @example
-     *     <ul class="buttons">
-     *         <li class="button" data-tip-text="Create a new document">New</li>
-     *         <li class="button" data-tip-text="Exit the program">Quit</li>
-     *         <li class="button" data-tip-text="Save the document you are working on">Save</li>
-     *     </ul>
-     *     
-     *     [...]
-     *
-     *     <script>
-     *         Ink.requireModules(['Ink.UI.Tooltip_1'], function (Tooltip) {
-     *             new Tooltip('.button', {where: 'mousefix'});
-     *         });
-     *     </script>
+     * @sample Ink_UI_Tooltip_1.html
      */
     function Tooltip(element, options) {
         this._init(element, options || {});
@@ -70,7 +64,7 @@ Ink.createModule('Ink.UI.Tooltip', '1', ['Ink.UI.Aux_1', 'Ink.Dom.Event_1', 'Ink
 
     // Body or documentElement
     var bodies = document.getElementsByTagName('body');
-    var body = bodies && bodies.length ? bodies[0] : document.documentElement;
+    var body = bodies.length ? bodies[0] : document.documentElement;
 
     Tooltip.prototype = {
         _init: function(element, options) {
@@ -136,9 +130,13 @@ Ink.createModule('Ink.UI.Tooltip', '1', ['Ink.UI.Aux_1', 'Ink.Dom.Event_1', 'Ink
             this.element = elm;
             this._delayTimeout = null;
             this.tooltip = null;
+
+            Common.registerInstance(this, this.element);
         },
         _makeTooltip: function (mousePosition) {
-            if (!this._getOpt('text')) {
+            if (!this._getOpt('text') &&
+                    !this._getOpt('html') &&
+                    !InkElement.hasAttribute(this.element, 'title')) {
                 return false;
             }
 
@@ -173,7 +171,7 @@ Ink.createModule('Ink.UI.Tooltip', '1', ['Ink.UI.Aux_1', 'Ink.Dom.Event_1', 'Ink
 
             if (template) {  // The user told us of a template to use. We copy it.
                 var temp = document.createElement('DIV');
-                temp.innerHTML = Aux.elOrSelector(template, 'options.template').outerHTML;
+                temp.innerHTML = Common.elOrSelector(template, 'options.template').outerHTML;
                 tooltip = temp.firstChild;
                 
                 if (templatefield) {
@@ -197,7 +195,13 @@ Ink.createModule('Ink.UI.Tooltip', '1', ['Ink.UI.Aux_1', 'Ink.Dom.Event_1', 'Ink
                 tooltip.appendChild(field);
             }
             
-            InkElement.setTextContent(field, this._getOpt('text'));
+            if (this._getOpt('html')) {
+                field.innerHTML = this._getOpt('html');
+            } else if (this._getOpt('text')) {
+                InkElement.setTextContent(field, this._getOpt('text'));
+            } else {
+                InkElement.setTextContent(field, this.element.getAttribute('title'));
+            }
             tooltip.style.display = 'block';
             tooltip.style.position = 'absolute';
             tooltip.style.zIndex = this._getIntOpt('zIndex');
@@ -213,7 +217,7 @@ Ink.createModule('Ink.UI.Tooltip', '1', ['Ink.UI.Aux_1', 'Ink.Dom.Event_1', 'Ink
                 tooltip.style[transitionTimingFunctionName] = 'ease-in-out';
                 setTimeout(function () {
                     tooltip.style.opacity = '1';
-                }, 0);
+                }, 0); // Wait a tick
             }
         },
         _placeTooltipElement: function (tooltip, mousePosition) {
@@ -229,11 +233,6 @@ Ink.createModule('Ink.UI.Tooltip', '1', ['Ink.UI.Aux_1', 'Ink.Dom.Event_1', 'Ink
                 var tleft = targetElementPos[0],
                     ttop = targetElementPos[1];
 
-                if (tleft instanceof Array) {  // Work around a bug in Ink.Dom.Element.offsetLeft which made it return the result of offset() instead. TODO remove this check when fix is merged
-                    ttop = tleft[1];
-                    tleft = tleft[0];
-                }
-
                 var centerh = (InkElement.elementWidth(this.element) / 2) - (InkElement.elementWidth(tooltip) / 2),
                     centerv = (InkElement.elementHeight(this.element) / 2) - (InkElement.elementHeight(tooltip) / 2);
                 var spacing = this._getIntOpt('spacing');
@@ -244,15 +243,15 @@ Ink.createModule('Ink.UI.Tooltip', '1', ['Ink.UI.Aux_1', 'Ink.Dom.Event_1', 'Ink
                 var maxX = InkElement.scrollWidth() + InkElement.viewportWidth();
                 var maxY = InkElement.scrollHeight() + InkElement.viewportHeight();
                 
-                if (where === 'left' &&  tleft - tooltipDims[0] < 0) {
-                    where = 'right';
-                } else if (where === 'right' && tleft + tooltipDims[0] > maxX) {
-                    where = 'left';
-                } else if (where === 'up' && ttop - tooltipDims[1] < 0) {
-                    where = 'down';
-                } else if (where === 'down' && ttop + tooltipDims[1] > maxY) {
-                    where = 'up';
-                }
+                where = this._getWhereValueInsideViewport(where, {
+                    left: tleft - tooltipDims[0],
+                    right: tleft + tooltipDims[0],
+                    top: ttop + tooltipDims[1],
+                    bottom: ttop + tooltipDims[1]
+                }, {
+                    right: maxX,
+                    bottom: maxY
+                });
                 
                 if (where === 'up') {
                     ttop -= tooltipDims[1];
@@ -280,10 +279,8 @@ Ink.createModule('Ink.UI.Tooltip', '1', ['Ink.UI.Aux_1', 'Ink.Dom.Event_1', 'Ink
                     tooltip.appendChild(arrow);
                 }
 
-                var scrl = this._getLocalScroll();
-
-                var tooltipLeft = tleft - scrl[0];
-                var tooltipTop = ttop - scrl[1];
+                var tooltipLeft = tleft;
+                var tooltipTop = ttop;
 
                 var toBottom = (tooltipTop + tooltipDims[1]) - maxY;
                 var toRight = (tooltipLeft + tooltipDims[0]) - maxX;
@@ -307,6 +304,31 @@ Ink.createModule('Ink.UI.Tooltip', '1', ['Ink.UI.Aux_1', 'Ink.Dom.Event_1', 'Ink
                 tooltip.style.left = tooltipLeft + 'px';
                 tooltip.style.top = tooltipTop + 'px';
             }
+        },
+
+        /**
+         * Get a value for "where" (left/right/up/down) which doesn't put the
+         * tooltip off the screen
+         *
+         * @method _getWhereValueInsideViewport
+         * @param where {String} "where" value which was given by the user and we might change
+         * @param bbox {BoundingBox} A bounding box like what you get from getBoundingClientRect ({top, bottom, left, right}) with pixel positions from the top left corner of the viewport.
+         * @param viewport {BoundingBox} Bounding box for the viewport. "top" and "left" are omitted because these coordinates are relative to the top-left corner of the viewport so they are zero.
+         *
+         * @TODO: we can't use getBoundingClientRect in this case because it returns {0,0,0,0} on our uncreated tooltip.
+         */
+        _getWhereValueInsideViewport: function (where, bbox, viewport) {
+            if (where === 'left' && bbox.left < 0) {
+                return 'right';
+            } else if (where === 'right' && bbox.right > viewport.right) {
+                return 'left';
+            } else if (where === 'up' && bbox.top < 0) {
+                return 'down';
+            } else if (where === 'down' && bbox.bottom > viewport.bottom) {
+                return 'up';
+            }
+
+            return where;
         },
         _removeTooltip: function() {
             var tooltip = this.tooltip;
@@ -425,23 +447,6 @@ Ink.createModule('Ink.UI.Tooltip', '1', ['Ink.UI.Aux_1', 'Ink.Dom.Event_1', 'Ink
             } else {
                 return [0, 0];
             }
-        },
-        _getLocalScroll: function () {
-            var cumScroll = [0, 0];
-            var cursor = this.element.parentNode;
-            var left, top;
-            while (cursor && cursor !== document.documentElement && cursor !== document.body) {
-                left = cursor.scrollLeft;
-                top = cursor.scrollTop;
-                if (left) {
-                    cumScroll[0] += left;
-                }
-                if (top) {
-                    cumScroll[1] += top;
-                }
-                cursor = cursor.parentNode;
-            }
-            return cumScroll;
         },
         _getMousePosition: function(e) {
             return [parseInt(InkEvent.pointerX(e), 10), parseInt(InkEvent.pointerY(e), 10)];

@@ -9,13 +9,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <link rel="shortcut icon" href="/assets/images/favicon.ico">
     <link rel="alternate" type="application/rss+xml" title="Blog Posts" href="{{ site.url }}/feed.xml" />
-    <link rel="stylesheet" type="text/css" href="/css/ink.css">
+
+    <link rel="stylesheet" type="text/css" href="/css/ink-flex.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
+
     <link rel="stylesheet" type="text/css" href="/css/local.css">
     <link href="/js/prettify/prettify.css" rel="stylesheet">
     <link href="/js/prettify/themes/{{ site.prettify_theme }}.css" rel="stylesheet">
     <!--[if IE 7 ]>
         <link rel="stylesheet" href="../css/ink-ie7.css" type="text/css" media="screen" title="no title" charset="utf-8">
-    <![endif]-->    
+    <![endif]-->
+
     <script type="text/javascript" src="/js/lunr.min.js"></script>
     <script type="text/javascript" src="/js/holder.js"></script>
     <script type="text/javascript" src="/js/ink.min.js"></script>
@@ -23,7 +27,7 @@
     <script type="text/javascript" src="/js/autoload.js"></script>
     <script type="text/javascript" src="/js/html5shiv.js"></script>
     <script type="text/javascript" src="/js/posts.js"></script>
-    <script type="text/javascript" src="/js/local.js"></script>
+    <script type="text/javascript" src="/js/ink.ghink.js"></script>
     <script type="text/javascript" src="/js/prettify/prettify.js"></script>
     {% if site.use_leaflet and site.use_leaflet == 1 %}
      <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
@@ -32,5 +36,6 @@
      <![endif]-->
     <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
     <script src="/js/leaflet-providers.js"></script>
+    <script type="text/javascript" src="/js/local.js"></script>
     {% endif %}
 </head>
