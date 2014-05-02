@@ -26,6 +26,7 @@ Ghink uses [Github Pages] [1], which in turn uses [Jekyll] [4], a simple, blog a
 ```
 sudo gem update --system
 sudo gem install jekyll
+sudo gem install github-pages
 ```
 
 For more information on how to install Jekyll, check [this page] [5].
