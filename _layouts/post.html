@@ -3,13 +3,13 @@ layout: default
 ---
 {% if site.blog_more_posts %}
 <section class="column-group gutters article">
-	<div class="large-25 medium-25 hide-small fadein">
+	<div class="all-25 medium-25 hide-small fadein">
 		<h2>More stories</h2>
 		<div id="relatedposts" class="bweffect shadows"></div>
 	</div>
-	<div class="large-75 medium-75 small-100">
+	<div class="all-75 medium-75 small-100">
 {% else %}
-	<div class="large-100 medium-100 small-100">
+	<div class="all-100 medium-100 small-100">
 {% endif %}
 		<h2>{{ page.title }}</h2>
 		<p class="meta">{{ page.date | date_to_string }}</p>

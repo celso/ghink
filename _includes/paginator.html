@@ -15,7 +15,7 @@
 		{% if paginator.page == 1 %}
 		<li class="active"><a href="#" onclick="return(false);">1</a></a>
 		{% else %}
-		<li><a href="/blog/"><i class="icon-fast-backward"></i></a></li>
+		<li><a href="/blog/"><i class="fa fa-fast-backward"></i></a></li>
 		{% endif %}
 
 		{% if paginator.page > 2 %}
@@ -43,7 +43,7 @@
 			{% if paginator.page == paginator.total_pages %}
 			<li class="active"><a href="#" onclick="return(false);">{{ paginator.total_pages }}</a></a>
 			{% else %}
-			<li><a href="/blog/page/{{ paginator.total_pages }}"><i class="icon-fast-forward"></i></a></a>
+			<li><a href="/blog/page/{{ paginator.total_pages }}"><i class="fa fa-fast-forward"></i></a></a>
 			{% endif %}
 		{% endif %}
 
