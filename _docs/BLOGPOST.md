@@ -121,14 +121,15 @@ To write code on a page or post, use the following markdown syntax:
 > var code = 42;  
 > &#96;&#96;&#96;  
 
-Here's a [boilerplate](_examples/2013-10-31-template-post.markdown) to start a new post.
+Here's a [boilerplate][7] to start a new post.
 
 [back to main](README.md)
 
-  [1]: http://jekyllrb.com/docs/frontmatter/                           "Front-matter"
-  [2]: https://help.github.com/articles/github-flavored-markdown       "Github flavored markdown"
-  [3]: http://daringfireball.net/projects/markdown/                    "Markdown"
-  [4]: https://github.com/vmg/Redcarpet                                "Redcarpet"
-  [5]: https://github.com/celso/ghink/blob/gh-pages/_docs/SNIPPETS.md        "Snippets"
-  [6]: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet  "Markdown Cheatsheet"
+  [1]: http://jekyllrb.com/docs/frontmatter/
+  [2]: https://help.github.com/articles/github-flavored-markdown
+  [3]: http://daringfireball.net/projects/markdown/
+  [4]: https://github.com/vmg/Redcarpet
+  [5]: https://github.com/celso/ghink/blob/gh-pages/_docs/SNIPPETS.md
+  [6]: https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet
+  [7]: https://raw.github.com/celso/ghink/gh-pages/_examples/2013-10-31-template-post.markdown
 
